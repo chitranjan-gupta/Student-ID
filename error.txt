@@ -1,0 +1,13 @@
+/workspaces/Student-ID/node_modules/@aries-framework/indy-sdk/build/storage/IndySdkStorageService.js:225
+                throw new core_1.RecordNotFoundError(`record with id ${id} not found.`, {
+                      ^
+RecordNotFoundError: ConnectionRecord: record with id aa6f72d7-9a5e-49a2-aed5-97882801d814 not found.
+    at IndySdkStorageService.getById (/workspaces/Student-ID/node_modules/@aries-framework/indy-sdk/build/storage/IndySdkStorageService.js:225:23)
+    at async CredentialsApi.offerCredential (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/CredentialsApi.js:152:34) {
+  [cause]: IndyError: WalletItemNotFound
+      at Object.callback (/workspaces/Student-ID/node_modules/indy-sdk/src/wrapIndyCallback.js:15:10) {
+    indyCode: 212,
+    indyName: 'WalletItemNotFound',
+    indyCurrentErrorJson: null
+  }
+}
