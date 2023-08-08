@@ -3,6 +3,8 @@ SEED=00000000000000000000000000Roshan
 DID=Hn1G3Z8ENtgoRfGJpFx61g
 VERKEY=A9KbCBNmruRk8iK1aS5STp619c5DAqmNK6vdu32EFYs4
 
+No two schema same but two same credential but it will eventually give error
+
 {
   schemaState: {
     state: 'finished',

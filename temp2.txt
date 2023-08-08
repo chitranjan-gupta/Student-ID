@@ -1,0 +1,154 @@
+SEED=0000000000000000000000000Roshan1
+DID=DxRyhqooU79KcCYpMDcPkP
+VERKEY=84ZCqsjPHT6fpFKPGTYYCWaJn4HoSvqQAfUBPodELUm1
+
+Initializing Acme agent...
+{
+  schemaState: {
+    state: 'finished',
+    schema: {
+      attrNames: [Array],
+      issuerId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP',
+      name: 'Example Schema to register',
+      version: '1.0.0'
+    },
+    schemaId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/SCHEMA/Example Schema to register/1.0.0'
+  },
+  registrationMetadata: {},
+  schemaMetadata: { indyLedgerSeqNo: 12642 }
+}
+{
+  credentialDefinitionMetadata: {},
+  credentialDefinitionState: {
+    credentialDefinition: {
+      schemaId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/SCHEMA/Example Schema to register/1.0.0',
+      type: 'CL',
+      tag: 'default',
+      value: [Object],
+      issuerId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP'
+    },
+    credentialDefinitionId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default',
+    state: 'finished'
+  },
+  registrationMetadata: {}
+}
+Creating the invitation as Acme...
+http://localhost:3001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJiZTdlZGNhYy0yYzEwLTRlMjktYWVkMi1mODhmYjM3MTQzZGUiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYWNtZSIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2ZiMldXUUpwMU5uNWY1bno2M2lZVlVrQ1BhaDVFb0pvaVhwVmFSZHlkWlhzIl0sInJvdXRpbmdLZXlzIjpbXX1dfQ
+Listening for connection changes...
+Connection for out-of-band id 27a45f94-f922-4247-bc9b-58c11f1237c2 completed
+{
+  connectionRecord: ConnectionRecord {
+    _tags: {
+      state: 'response-sent',
+      threadId: '34c5235e-7ccc-4207-b2eb-768164ad9d66',
+      did: 'did:peer:1zQmW6tANCmMs6ui6zmEwGTLPDmDuWuWeLmm6FthyFVe8dsF',
+      role: 'responder',
+      outOfBandId: '27a45f94-f922-4247-bc9b-58c11f1237c2',
+      theirDid: 'did:peer:1zQmeWx8JhVxhMiHcgHEbP7UgZE3BCR3vkqz8Hu6duCjdUgi'
+    },
+    type: 'ConnectionRecord',
+    metadata: Metadata { data: {} },
+    connectionTypes: [],
+    id: 'cd891d7d-1bba-440c-b5eb-681535cf9573',
+    createdAt: 2023-08-08T11:35:24.082Z,
+    did: 'did:peer:1zQmW6tANCmMs6ui6zmEwGTLPDmDuWuWeLmm6FthyFVe8dsF',
+    theirDid: 'did:peer:1zQmeWx8JhVxhMiHcgHEbP7UgZE3BCR3vkqz8Hu6duCjdUgi',
+    theirLabel: 'demo-agent-bob',
+    state: 'completed',
+    role: 'responder',
+    autoAcceptConnection: true,
+    threadId: '34c5235e-7ccc-4207-b2eb-768164ad9d66',
+    protocol: 'https://didcomm.org/didexchange/1.0',
+    outOfBandId: '27a45f94-f922-4247-bc9b-58c11f1237c2',
+    updatedAt: 2023-08-08T11:35:24.402Z
+  },
+  previousState: 'response-sent'
+}
+CredentialExchangeRecord {
+  _tags: {},
+  type: 'CredentialRecord',
+  metadata: Metadata { data: { '_anoncreds/credential': [Object] } },
+  credentials: [],
+  id: '5c20a038-ca38-4577-9cd0-d989c2386655',
+  createdAt: 2023-08-08T11:35:24.435Z,
+  state: 'offer-sent',
+  connectionId: 'cd891d7d-1bba-440c-b5eb-681535cf9573',
+  threadId: 'f0e4e0d2-cabf-4152-9884-9e7e1078388c',
+  protocolVersion: 'v2',
+  credentialAttributes: [
+    CredentialPreviewAttribute {
+      mimeType: undefined,
+      name: 'name',
+      value: 'Jane Doe'
+    }
+  ],
+  autoAcceptCredential: undefined,
+  linkedAttachments: undefined,
+  revocationNotification: undefined,
+  errorMessage: undefined,
+  updatedAt: 2023-08-08T11:35:25.803Z
+}
+
+Initializing Bob agent...
+Accepting the invitation as Bob...
+{
+  outOfBandRecord: OutOfBandRecord {
+    _tags: {
+      role: 'receiver',
+      invitationId: 'be7edcac-2c10-4e29-aed2-f88fb37143de',
+      threadId: 'be7edcac-2c10-4e29-aed2-f88fb37143de',
+      state: 'initial',
+      recipientKeyFingerprints: [Array]
+    },
+    type: 'OutOfBandRecord',
+    metadata: Metadata { data: {} },
+    id: 'd446c4ab-7d80-41d0-b093-a690600117f2',
+    createdAt: 2023-08-08T11:35:23.868Z,
+    outOfBandInvitation: OutOfBandInvitation {
+      allowDidSovPrefix: false,
+      type: 'https://didcomm.org/out-of-band/1.1/invitation',
+      id: 'be7edcac-2c10-4e29-aed2-f88fb37143de',
+      label: 'demo-agent-acme',
+      accept: [Array],
+      handshakeProtocols: [Array],
+      services: [Array],
+      thread: undefined,
+      l10n: undefined,
+      transport: undefined,
+      timing: undefined,
+      pleaseAck: undefined,
+      appendedAttachments: undefined,
+      service: undefined,
+      goalCode: undefined,
+      requests: undefined
+    },
+    role: 'receiver',
+    state: 'prepare-response',
+    autoAcceptConnection: true,
+    reusable: false,
+    updatedAt: 2023-08-08T11:35:23.890Z
+  },
+  connectionRecord: ConnectionRecord {
+    _tags: {},
+    type: 'ConnectionRecord',
+    metadata: Metadata { data: {} },
+    connectionTypes: [],
+    id: '1e7590a3-afea-4b18-bc4e-067bea62065e',
+    createdAt: 2023-08-08T11:35:23.943Z,
+    did: 'did:peer:1zQmeWx8JhVxhMiHcgHEbP7UgZE3BCR3vkqz8Hu6duCjdUgi',
+    invitationDid: 'did:peer:2.SeyJzIjoiaHR0cDovL2xvY2FsaG9zdDozMDAxIiwidCI6ImRpZC1jb21tdW5pY2F0aW9uIiwicHJpb3JpdHkiOjAsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rZmIyV1dRSnAxTm41ZjVuejYzaVlWVWtDUGFoNUVvSm9pWHBWYVJkeWRaWHMjejZNa2ZiMldXUUpwMU5uNWY1bno2M2lZVlVrQ1BhaDVFb0pvaVhwVmFSZHlkWlhzIl0sInIiOltdfQ',
+    theirDid: undefined,
+    theirLabel: 'demo-agent-acme',
+    state: 'request-sent',
+    role: 'requester',
+    alias: undefined,
+    autoAcceptConnection: true,
+    threadId: '34c5235e-7ccc-4207-b2eb-768164ad9d66',
+    imageUrl: undefined,
+    mediatorId: undefined,
+    errorMessage: undefined,
+    protocol: 'https://didcomm.org/didexchange/1.0',
+    outOfBandId: 'd446c4ab-7d80-41d0-b093-a690600117f2',
+    updatedAt: 2023-08-08T11:35:23.997Z
+  }
+}
