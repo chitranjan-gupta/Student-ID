@@ -9,7 +9,8 @@ import {
     TypedArrayEncoder,
     KeyType,
     CredentialsModule,
-    V2CredentialProtocol
+    V2CredentialProtocol,
+    AutoAcceptCredential
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -20,8 +21,8 @@ import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 
 import { genesis } from "./bcovrin.js"
 
-const seed = TypedArrayEncoder.fromString(`00000000000000000000000000Roshan`) // What you input on bcovrin. Should be kept secure in production!
-const unqualifiedIndyDid = `Hn1G3Z8ENtgoRfGJpFx61g` // will be returned after registering seed on bcovrin
+const seed = TypedArrayEncoder.fromString(`0000000000000000000000000Roshan1`) // What you input on bcovrin. Should be kept secure in production!
+const unqualifiedIndyDid = `DxRyhqooU79KcCYpMDcPkP` // will be returned after registering seed on bcovrin
 const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`
 
 const initializeAcmeAgent = async () => {
@@ -72,6 +73,7 @@ const initializeAcmeAgent = async () => {
             connections: new ConnectionsModule({ autoAcceptConnections: true }),
         },
         dependencies: agentDependencies,
+        autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
     })
 
     // Register a simple `WebSocket` outbound transport
@@ -149,7 +151,7 @@ const run = async () => {
     const { outOfBandRecord, invitationUrl } = await createNewInvitation(acmeAgent)
     console.log(invitationUrl)
     console.log('Listening for connection changes...')
-    acmeAgent.events.on(ConnectionEventTypes.ConnectionStateChanged, ({ payload }) => {
+    acmeAgent.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
         if (payload.connectionRecord.outOfBandId !== outOfBandRecord.id) return
         if (payload.connectionRecord.state === DidExchangeState.Completed) {
             // the connection is now ready for usage in other protocols!
@@ -157,26 +159,22 @@ const run = async () => {
             // Custom business logic can be included here
             // In this example we can send a basic message to the connection, but
             // anything is possible
-            cb()
-            const anonCredsCredentialExchangeRecord = acmeAgent.credentials.offerCredential({
+            console.log(payload)
+            const anonCredsCredentialExchangeRecord = await acmeAgent.credentials.createOffer({
                 protocolVersion: 'v2',
-                connectionId: outOfBandRecord.id,
+                connectionId: payload.connectionRecord.id,
                 credentialFormats: {
                     anoncreds: {
-                        credentialDefinitionId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g/anoncreds/v0/CLAIM_DEF/12595/default',//credentialDefinitionResult.credentialDefinitionState.credentialDefinitionId
+                        credentialDefinitionId: 'did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default',//credentialDefinitionResult.credentialDefinitionState.credentialDefinitionId
                         attributes: [
-                            { name: 'name', value: 'Jane Doe' }
+                            { name: 'name', value: 'Jane Doe' },
                         ],
                     },
                 },
             })
-            anonCredsCredentialExchangeRecord.then((v) => console.log(v))
-
-            // We exit the flow
-            //process.exit(0)
+            console.log(anonCredsCredentialExchangeRecord)
         }
     })
-    //console.log(anonCredsCredentialExchangeRecord)
     // const invitationUrl = "http://localhost:3002?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiI2MWVmMDAwNy1iMWZhLTQ4NDYtYjdkNi05ZjAzMjk3N2M0ZWMiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYm9iIiwiYWNjZXB0IjpbImRpZGNvbW0vYWlwMSIsImRpZGNvbW0vYWlwMjtlbnY9cmZjMTkiXSwiaGFuZHNoYWtlX3Byb3RvY29scyI6WyJodHRwczovL2RpZGNvbW0ub3JnL2RpZGV4Y2hhbmdlLzEuMCIsImh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wIl0sInNlcnZpY2VzIjpbeyJpZCI6IiNpbmxpbmUtMCIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMiIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rdWJDVmVraDIyTmJnVjc2blBLTnNWTVB6TjV3N1dLRndibWE4eEM1eXFqVWMiXSwicm91dGluZ0tleXMiOltdfV19"
     // console.log('Accepting the invitation as Acme...')
     // await receiveInvitation(acmeAgent, invitationUrl)

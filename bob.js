@@ -9,7 +9,8 @@ import {
     CredentialsModule,
     V2CredentialProtocol,
     CredentialEventTypes,
-    CredentialState
+    CredentialState,
+    AutoAcceptCredential
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -69,6 +70,7 @@ const initializeBobAgent = async () => {
             connections: new ConnectionsModule({ autoAcceptConnections: true }),
         },
         dependencies: agentDependencies,
+        autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
     })
 
     // Register a simple `WebSocket` outbound transport
@@ -97,9 +99,9 @@ const createNewInvitation = async (agent) => {
 }
 
 const receiveInvitation = async (agent, invitationUrl) => {
-    const { outOfBandRecord } = await agent.oob.receiveInvitationFromUrl(invitationUrl)
-
-    return outOfBandRecord
+    const connection = await agent.oob.receiveInvitationFromUrl(invitationUrl)
+    console.log(connection)
+    return connection
 }
 
 const setupConnectionListener = (agent, outOfBandRecord, cb) => {
@@ -128,6 +130,7 @@ const run = async () => {
             case CredentialState.OfferReceived:
                 console.log('received a credential')
                 // custom logic here
+                console.log(payload)
                 await bobAgent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
             case CredentialState.Done:
                 console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
@@ -140,9 +143,9 @@ const run = async () => {
     // console.log('Creating the invitation as Bob...')
     // const { outOfBandRecord, invitationUrl } = await createNewInvitation(bobAgent)
     // console.log(invitationUrl)
-       const invitationUrl = "http://localhost:3001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJlNWMzY2Q3ZC03NTUxLTRmMjQtODQwMC0zZDczYzUzNjY4YWEiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYWNtZSIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2pSYkh0OERQNjV3TmZURGpVNjl5TnBrVkpwekF1akVORFRvZjVkeXhiQ1BTIl0sInJvdXRpbmdLZXlzIjpbXX1dfQ"
-       console.log('Accepting the invitation as Bob...')
-       await receiveInvitation(bobAgent, invitationUrl)
+    const invitationUrl = "http://localhost:3001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJiMTg4NGNlMi05MjZjLTRhZjktOTA5MC04OWQwOTM2YzRmY2IiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYWNtZSIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa25WQWhnbWdhbTdmWENDOWhQcW41UkVOZFRwclFkZU1Lb1NEYTFvNDRKclI3Il0sInJvdXRpbmdLZXlzIjpbXX1dfQ"
+    console.log('Accepting the invitation as Bob...')
+    await receiveInvitation(bobAgent, invitationUrl)
     // console.log('Listening for connection changes...')
     // setupConnectionListener(bobAgent, outOfBandRecord, () =>
     //     console.log('We now have an active connection to use in the following tutorials')
