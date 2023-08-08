@@ -1,0 +1,37 @@
+BCOVRIN_URL=http://test.bcovrin.vonx.io/
+SEED=00000000000000000000000000Roshan
+DID=Hn1G3Z8ENtgoRfGJpFx61g
+VERKEY=A9KbCBNmruRk8iK1aS5STp619c5DAqmNK6vdu32EFYs4
+
+{
+  schemaState: {
+    state: 'finished',
+    schema: {
+      attrNames: [Array],
+      issuerId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g',
+      name: 'Example Schema to register',
+      version: '1.0.0'
+    },
+    schemaId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g/anoncreds/v0/SCHEMA/Example Schema to register/1.0.0'
+  },
+  registrationMetadata: {},
+  schemaMetadata: { indyLedgerSeqNo: 12595 }
+}
+
+{
+  credentialDefinitionMetadata: {},
+  credentialDefinitionState: {
+    credentialDefinition: {
+      schemaId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g/anoncreds/v0/SCHEMA/Example Schema to register/1.0.0',
+      type: 'CL',
+      tag: 'default',
+      value: [Object],
+      issuerId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g'
+    },
+    credentialDefinitionId: 'did:indy:bcovrin:test:Hn1G3Z8ENtgoRfGJpFx61g/anoncreds/v0/CLAIM_DEF/12595/default',
+    state: 'finished'
+  },
+  registrationMetadata: {}
+}
+
+d2d6a96e-fc00-42ec-abec-ff5347964418

@@ -1,0 +1,25 @@
+{
+  "name": "student-id",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/chitranjan-gupta/Student-ID",
+  "author": "Chitranjan Gupta",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@aries-framework/anoncreds": "^0.4.0",
+    "@aries-framework/anoncreds-rs": "^0.4.0",
+    "@aries-framework/core": "^0.4.0",
+    "@aries-framework/indy-sdk": "^0.4.0",
+    "@aries-framework/node": "^0.4.0",
+    "@hyperledger/anoncreds-nodejs": "^0.1.0",
+    "indy-sdk": "^1.16.0-dev-1655"
+  },
+  "overrides": {
+    "ref-napi": "npm:@2060.io/ref-napi"
+  }
+}
