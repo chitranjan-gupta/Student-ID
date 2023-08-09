@@ -29,7 +29,7 @@ const initializeBobAgent = async () => {
         label: 'demo-agent-bob',
         walletConfig: {
             id: 'mainBob',
-            key: 'demoagentbob00000000000000000000',
+            key: 'demoagentbob00000000000000000000'
         },
         endpoints: ['http://localhost:3002'],
     }
@@ -51,7 +51,7 @@ const initializeBobAgent = async () => {
                 ]
             }),
             anoncredsRs: new AnonCredsRsModule({
-                anoncreds,
+                anoncreds
             }),
             anoncreds: new AnonCredsModule({
                 registries: [new IndySdkAnonCredsRegistry()],
@@ -70,7 +70,7 @@ const initializeBobAgent = async () => {
             connections: new ConnectionsModule({ autoAcceptConnections: true }),
         },
         dependencies: agentDependencies,
-        autoAcceptCredentials: AutoAcceptCredential.ContentApproved,
+        autoAcceptCredentials: AutoAcceptCredential.ContentApproved
     })
 
     // Register a simple `WebSocket` outbound transport
@@ -128,9 +128,10 @@ const run = async () => {
     bobAgent.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
             case CredentialState.OfferReceived:
-                console.log('received a credential')
+                console.log("Received a credential")
                 // custom logic here
                 console.log(payload)
+                await bobAgent.modules.anoncreds.createLinkSecret({ setAsDefault: true })
                 await bobAgent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
             case CredentialState.Done:
                 console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
@@ -138,12 +139,10 @@ const run = async () => {
                 process.exit(0)
         }
     })
-    //console.log(await bobAgent.oob.findById("d2d6a96e-fc00-42ec-abec-ff5347964418"))
-    //await bobAgent.oob.deleteById("d2d6a96e-fc00-42ec-abec-ff5347964418")
     // console.log('Creating the invitation as Bob...')
     // const { outOfBandRecord, invitationUrl } = await createNewInvitation(bobAgent)
     // console.log(invitationUrl)
-    const invitationUrl = "http://localhost:3001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJiMTg4NGNlMi05MjZjLTRhZjktOTA5MC04OWQwOTM2YzRmY2IiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYWNtZSIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa25WQWhnbWdhbTdmWENDOWhQcW41UkVOZFRwclFkZU1Lb1NEYTFvNDRKclI3Il0sInJvdXRpbmdLZXlzIjpbXX1dfQ"
+    const invitationUrl = "http://localhost:3001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJmNDhkYWViNS05YWY4LTQwMWUtOTAxZC03ZWNlNTUyOGU5NjYiLCJsYWJlbCI6ImRlbW8tYWdlbnQtYWNtZSIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa3ZZWEVWN1FQb3RtaVFkMkh1WE5VaDh5VGZnaXJOSmNiNWpHQTdodzVqTXF1Il0sInJvdXRpbmdLZXlzIjpbXX1dfQ"
     console.log('Accepting the invitation as Bob...')
     await receiveInvitation(bobAgent, invitationUrl)
     // console.log('Listening for connection changes...')

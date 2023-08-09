@@ -152,3 +152,41 @@ Accepting the invitation as Bob...
     updatedAt: 2023-08-08T11:35:23.997Z
   }
 }
+
+
+
+/workspaces/Student-ID/node_modules/@aries-framework/anoncreds-rs/build/services/AnonCredsRsHolderService.js:135
+                throw new AnonCredsRsError_1.AnonCredsRsError('No link secret provided to createCredentialRequest and no default link secret has been found');
+                      ^
+AnonCredsRsError: No link secret provided to createCredentialRequest and no default link secret has been found
+    at AnonCredsRsHolderService.createCredentialRequest (/workspaces/Student-ID/node_modules/@aries-framework/anoncreds-rs/build/services/AnonCredsRsHolderService.js:135:23)
+    at async AnonCredsCredentialFormatService.acceptOffer (/workspaces/Student-ID/node_modules/@aries-framework/anoncreds/build/formats/AnonCredsCredentialFormatService.js:137:66)
+    at async CredentialFormatCoordinator.acceptOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/CredentialFormatCoordinator.js:192:44)
+    at async V2CredentialProtocol.acceptOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/V2CredentialProtocol.js:322:25)
+    at async CredentialsApi.acceptOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/CredentialsApi.js:187:33)
+    at async EventEmitter.<anonymous> (file:///workspaces/Student-ID/bob.js:134:17) {
+  [cause]: undefined
+}
+
+{
+  credentialRecord: CredentialExchangeRecord {
+    _tags: {},
+    type: 'CredentialRecord',
+    metadata: Metadata { data: {} },
+    credentials: [],
+    id: '2ad6371b-6f7d-4a93-b8fe-6413b8ac1a7e',
+    createdAt: 2023-08-09T06:53:06.915Z,
+    state: 'offer-received',
+    connectionId: 'b65c3513-f318-4590-b326-da2fd673d4f5',
+    threadId: 'edbf5ec2-2888-4d31-852f-63fb6dc31bfb',
+    protocolVersion: 'v2',
+    credentialAttributes: undefined,
+    autoAcceptCredential: undefined,
+    linkedAttachments: undefined,
+    revocationNotification: undefined,
+    errorMessage: undefined,
+    updatedAt: 2023-08-09T06:53:06.934Z
+  },
+  previousState: null
+}
+Credential for credential id 2ad6371b-6f7d-4a93-b8fe-6413b8ac1a7e is accepted
