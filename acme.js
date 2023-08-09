@@ -160,7 +160,7 @@ const run = async () => {
             // In this example we can send a basic message to the connection, but
             // anything is possible
             console.log(payload)
-            const anonCredsCredentialExchangeRecord = await acmeAgent.credentials.createOffer({
+            const anonCredsCredentialExchangeRecord = await acmeAgent.credentials.offerCredential({
                 protocolVersion: 'v2',
                 connectionId: payload.connectionRecord.id,
                 credentialFormats: {
