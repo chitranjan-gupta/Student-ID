@@ -147,6 +147,7 @@ const run = async () => {
     //     )
     // }
     // console.log(credentialDefinitionResult)
+    
     console.log('Creating the invitation as Acme...')
     const { outOfBandRecord, invitationUrl } = await createNewInvitation(acmeAgent)
     console.log(invitationUrl)
