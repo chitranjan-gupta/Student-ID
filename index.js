@@ -20,6 +20,9 @@ import { AnonCredsModule, AnonCredsCredentialFormatService } from '@aries-framew
 import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 import { startServer } from '@aries-framework/rest'
 import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import credential from "./routes/credential.js"
 
 import { genesis } from "./bcovrin.js"
 
@@ -115,7 +118,14 @@ const run = async () => {
     })
 
     const app = express()
-
+    app.use(cors())
+    app.use(
+        bodyParser.urlencoded({
+            extended: true,
+        })
+    )
+    app.use(bodyParser.json())
+    app.use("/credential", credential)
     await startServer(steward, {
         app: app,
         port: 5000,
