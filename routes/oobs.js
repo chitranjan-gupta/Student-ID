@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createNewInvitation, acceptInvitation } from "../utils/invitation.js"
+import { createNewInvitation, acceptInvitation, receiveInvitation } from "../utils/invitation.js"
 
 const router = Router()
 
@@ -29,12 +29,14 @@ router.post("/receive-invitation", async (req, res) => {
 })
 
 router.post("/receive-invitation-url", async (req, res) => {
-    res.send("");
+    const json = req.body
+    const outOfBandRecord = await receiveInvitation(req.steward, json.invitationUrl);
+    res.json({ outOfBandRecord });
 })
 
 router.post("/:outOfBandId/accept-invitation", async (req, res) => {
     const { outOfBandRecord, connectionRecord } = acceptInvitation(req.steward, req.params.outOfBandId);
-    res.json({ outOfBandRecord: outOfBandRecord, connectionRecord: connectionRecord })
+    res.json({ outOfBandRecord, connectionRecord })
 })
 
 router.delete("/:outOfBandId", async (req, res) => {

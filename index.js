@@ -8,6 +8,7 @@ import {
     TypedArrayEncoder,
     CredentialsModule,
     V2CredentialProtocol,
+    BasicMessageEventTypes,
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -20,7 +21,8 @@ import express from "express"
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import oobs from "./routes/oobs.js"
-import { acceptInvitation } from './utils/invitation.js'
+import { acceptConnection } from "./utils/request.js"
+import { send } from './utils/chat.js'
 
 import { genesis } from "./bcovrin.js"
 
@@ -85,14 +87,17 @@ const getAgent = async () => {
 
 const run = async () => {
     const steward = await getAgent();
+    steward.events.on(BasicMessageEventTypes.BasicMessageStateChanged, async ({ payload }) => {
+        console.log(payload.basicMessageRecord.content)
+    })
     steward.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
-        if(payload.connectionRecord.state === DidExchangeState.RequestReceived){
-            const { outOfBandRecord, connectionRecord } = acceptInvitation(steward, payload.connectionRecord.outOfBandId);
-            console.log(outOfBandRecord)
+        if (payload.connectionRecord.state === DidExchangeState.RequestReceived) {
+            const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
             console.log(connectionRecord)
         }
         if (payload.connectionRecord.state === DidExchangeState.Completed) {
             console.log(`Connection completed`)
+            await send(steward, payload.connectionRecord.id, "Hi Kya hal ba")
         }
     })
     const app = express()
@@ -103,11 +108,11 @@ const run = async () => {
         })
     )
     app.use(bodyParser.json())
-    app.use((req,res,next) => {
+    app.use((req, res, next) => {
         req.steward = steward;
         next();
     })
-    app.use("/oobs",oobs);
+    app.use("/oobs", oobs);
     await startServer(steward, {
         app: app,
         port: 5000,

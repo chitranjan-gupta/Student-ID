@@ -8,13 +8,12 @@ export const createNewInvitation = async (agent) => {
 }
 
 export const acceptInvitation = async (agent, outOfBandId) => {
-    const returns = await agent.oob.acceptInvitation(outOfBandId, {
+    const { outOfBandRecord, connectionRecord } = await agent.oob.acceptInvitation(outOfBandId, {
         "autoAcceptConnection": true,
     })
-    console.log(returns)
     return {
-        outOfBandRecord: returns.outOfBandRecord,
-        connectionRecord: returns.connectionRecord
+        outOfBandRecord,
+        connectionRecord
     }
 }
 
