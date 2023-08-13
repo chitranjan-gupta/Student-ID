@@ -1,44 +1,49 @@
 import { Router } from "express"
+import { offerCred, pullLinkSecret } from "../utils/cred.js";
 
 const router = Router()
 
-router.get("/", async (req,res) => {
+router.get("/", async (req, res) => {
+    const ids = await pullLinkSecret(req.steward)
+    res.send({ ids });
+})
+
+router.get("/:credentialRecordId", async (req, res) => {
+
+    res.send(req.params.credentialRecordId);
+})
+
+router.post("/propose-credential", async (req, res) => {
     res.send("Hello");
 })
 
-router.get("/:credentialRecordId", async (req,res) => {
+router.post("/:credentialRecordId/accept-proposal", async (req, res) => {
     res.send(req.params.credentialRecordId);
 })
 
-router.post("/propose-credential", async (req,res) => {
+router.post("/create-offer", async (req, res) => {
     res.send("Hello");
 })
 
-router.post("/:credentialRecordId/accept-proposal", async (req,res) => {
+router.post("/offer-credential", async (req, res) => {
+    const json = req.body
+    const anonCredsCredentialExchangeRecord = await offerCred(req.steward, json.connectionId, json.credentialDefinitionId)
+    res.json({ anonCredsCredentialExchangeRecord });
+})
+
+router.post("/:credentialRecordId/accept-offer", async (req, res) => {
     res.send(req.params.credentialRecordId);
 })
 
-router.post("/create-offer", async (req,res) => {
-    res.send("Hello");
-})
-
-router.post("/offer-credential", async (req,res) => {
-    res.send("Hello");
-})
-
-router.post("/:credentialRecordId/accept-offer", async (req,res) => {
+router.post("/:credentialRecordId/accept-request", async (req, res) => {
     res.send(req.params.credentialRecordId);
 })
 
-router.post("/:credentialRecordId/accept-request", async (req,res) => {
+router.post("/:credentialRecordId/accept-credential", async (req, res) => {
     res.send(req.params.credentialRecordId);
 })
 
-router.post("/:credentialRecordId/accept-credential", async (req,res) => {
-    res.send(req.params.credentialRecordId);
-})
-
-router.delete("/:credentialRecordId", async (req,res) => {
+router.delete("/:credentialRecordId", async (req, res) => {
     res.send(req.params.credentialRecordId);
 })
 

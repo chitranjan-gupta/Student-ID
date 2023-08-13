@@ -9,6 +9,8 @@ import {
     CredentialsModule,
     V2CredentialProtocol,
     BasicMessageEventTypes,
+    CredentialEventTypes,
+    CredentialState
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -21,7 +23,10 @@ import express from "express"
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import oobs from "./routes/oobs.js"
-import { acceptConnection } from "./utils/request.js"
+import credential from "./routes/credential.js"
+import schema from "./routes/schema.js"
+import credentialDef from "./routes/credential-def.js"
+import { acceptConnection, acceptConnectionBack } from "./utils/request.js"
 import { send } from './utils/chat.js'
 
 import { genesis } from "./bcovrin.js"
@@ -91,13 +96,30 @@ const run = async () => {
         console.log(payload.basicMessageRecord.content)
     })
     steward.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
-        if (payload.connectionRecord.state === DidExchangeState.RequestReceived) {
+        if (payload.connectionRecord.state === DidExchangeState.ResponseReceived) {
+            const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
+            console.log("Connection Responded")
+            console.log(connectionRecord)
+        }else if (payload.connectionRecord.state === DidExchangeState.RequestReceived) {
             const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
             console.log(connectionRecord)
-        }
-        if (payload.connectionRecord.state === DidExchangeState.Completed) {
+        }else if (payload.connectionRecord.state === DidExchangeState.Completed) {
             console.log(`Connection completed`)
             await send(steward, payload.connectionRecord.id, "Hi Kya hal ba")
+        }
+    })
+    steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
+        switch (payload.credentialRecord.state) {
+            case CredentialState.OfferReceived:
+                console.log("Received a credential")
+                // custom logic here
+                console.log(payload)
+                await bobAgent.modules.anoncreds.createLinkSecret({ setAsDefault: true })
+                await bobAgent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
+                break
+            case CredentialState.Done:
+                console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
+                break
         }
     })
     const app = express()
@@ -113,6 +135,9 @@ const run = async () => {
         next();
     })
     app.use("/oobs", oobs);
+    app.use("/credential", credential);
+    app.use("/schema", schema);
+    app.use("/credential-def", credentialDef);
     await startServer(steward, {
         app: app,
         port: 5000,
