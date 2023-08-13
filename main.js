@@ -9,6 +9,8 @@ import {
     CredentialsModule,
     V2CredentialProtocol,
     BasicMessageEventTypes,
+    CredentialEventTypes,
+    CredentialState
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -21,6 +23,9 @@ import express from "express"
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import oobs from "./routes/oobs.js"
+import credential from "./routes/credential.js"
+import schema from "./routes/schema.js"
+import credentialDef from "./routes/credential-def.js"
 import { acceptConnection, acceptConnectionBack } from "./utils/request.js"
 import { send } from './utils/chat.js'
 
@@ -103,6 +108,18 @@ const run = async () => {
             await send(steward, payload.connectionRecord.id, "Hi thik ba")
         }
     })
+    steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
+        switch (payload.credentialRecord.state) {
+            case CredentialState.OfferReceived:
+                console.log("Received a credential")
+                // custom logic here
+                console.log(payload)
+                await bobAgent.modules.anoncreds.createLinkSecret({ setAsDefault: true })
+                await bobAgent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
+            case CredentialState.Done:
+                console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
+        }
+    })
     const app = express()
     app.use(cors())
     app.use(
@@ -116,6 +133,9 @@ const run = async () => {
         next();
     })
     app.use("/oobs", oobs);
+    app.use("/credential", credential);
+    app.use("/schema", schema);
+    app.use("/credential-def", credentialDef);
     await startServer(steward, {
         app: app,
         port: 8000,
