@@ -10,7 +10,8 @@ import {
     V2CredentialProtocol,
     CredentialEventTypes,
     CredentialState,
-    AutoAcceptCredential
+    AutoAcceptCredential,
+    BasicMessageEventTypes
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -125,6 +126,9 @@ const setupConnectionListener = (agent, outOfBandRecord, cb) => {
 const run = async () => {
     console.log('Initializing Bob agent...')
     const bobAgent = await initializeBobAgent()
+    bobAgent.events.on(BasicMessageEventTypes.BasicMessageStateChanged, async ({ payload }) => {
+        console.log(payload.basicMessageRecord.content)
+    })
     bobAgent.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
             case CredentialState.OfferReceived:
@@ -142,7 +146,7 @@ const run = async () => {
     // console.log('Creating the invitation as Bob...')
     // const { outOfBandRecord, invitationUrl } = await createNewInvitation(bobAgent)
     // console.log(invitationUrl)
-    const invitationUrl = "http://localhost:5001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiI3ZGFjNmUyOC1kMmVkLTQ3NDItYmQwMS0yMjdhNmQ1ZjBkZDgiLCJsYWJlbCI6IlN0dWRlbnQiLCJhY2NlcHQiOlsiZGlkY29tbS9haXAxIiwiZGlkY29tbS9haXAyO2Vudj1yZmMxOSJdLCJoYW5kc2hha2VfcHJvdG9jb2xzIjpbImh0dHBzOi8vZGlkY29tbS5vcmcvZGlkZXhjaGFuZ2UvMS4wIiwiaHR0cHM6Ly9kaWRjb21tLm9yZy9jb25uZWN0aW9ucy8xLjAiXSwic2VydmljZXMiOlt7ImlkIjoiI2lubGluZS0wIiwic2VydmljZUVuZHBvaW50IjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicmVjaXBpZW50S2V5cyI6WyJkaWQ6a2V5Ono2TWtzcnFtc2N5am9teU41YWJBOU1wWVJ5dVJTRzJFb2laS21VU3JEdTlpRkNWWCJdLCJyb3V0aW5nS2V5cyI6W119XX0"
+    const invitationUrl = "http://localhost:5001?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiI5NjI3YjM3OC1iNTQ4LTRlMDQtOTQzMS0zYWI5MWM5NGU1ZTMiLCJsYWJlbCI6IlN0dWRlbnQiLCJhY2NlcHQiOlsiZGlkY29tbS9haXAxIiwiZGlkY29tbS9haXAyO2Vudj1yZmMxOSJdLCJoYW5kc2hha2VfcHJvdG9jb2xzIjpbImh0dHBzOi8vZGlkY29tbS5vcmcvZGlkZXhjaGFuZ2UvMS4wIiwiaHR0cHM6Ly9kaWRjb21tLm9yZy9jb25uZWN0aW9ucy8xLjAiXSwic2VydmljZXMiOlt7ImlkIjoiI2lubGluZS0wIiwic2VydmljZUVuZHBvaW50IjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicmVjaXBpZW50S2V5cyI6WyJkaWQ6a2V5Ono2TWt0VU5rOFp1NW9MdFdldlR3R3BZdUJlMlNnTWdmVHZocXJmdVpYenlteGtEUSJdLCJyb3V0aW5nS2V5cyI6W119XX0"
     console.log('Accepting the invitation as Bob...')
     await receiveInvitation(bobAgent, invitationUrl)
     // console.log('Listening for connection changes...')
