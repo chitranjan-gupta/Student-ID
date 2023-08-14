@@ -14,7 +14,7 @@ export const pushSchema = async (agent, did, schema) => {
     })
     if (schemaResult.schemaState.state === 'failed') {
         throw new Error(`Error creating schema: ${schemaResult.schemaState.reason}`)
-        return ""
+        return "Error"
     }
     return schemaResult
 }
@@ -36,9 +36,12 @@ export const pushCredDef = async (agent, did, schemaId) => {
         throw new Error(
             `Error creating credential definition: ${credentialDefinitionResult.credentialDefinitionState.reason}`
         )
-        return ""
+        return "Error"
     }
     return credentialDefinitionResult
+}
+export const credOffer = async () =>{
+    
 }
 export const offerCred = async (agent, connectionId, credentialDefinitionId) => {
     const anonCredsCredentialExchangeRecord = await agent.credentials.offerCredential({
@@ -46,7 +49,7 @@ export const offerCred = async (agent, connectionId, credentialDefinitionId) => 
         connectionId: connectionId,
         credentialFormats: {
             anoncreds: {
-                credentialDefinitionId: credentialDefinitionId,
+                credentialDefinitionId: "did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default",
                 attributes: [
                     { name: 'name', value: 'Jane Doe' },
                 ],

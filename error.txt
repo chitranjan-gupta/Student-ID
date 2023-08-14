@@ -11,3 +11,19 @@ RecordNotFoundError: ConnectionRecord: record with id aa6f72d7-9a5e-49a2-aed5-97
     indyCurrentErrorJson: null
   }
 }
+
+/workspaces/Student-ID/node_modules/@aries-framework/core/build/storage/Repository.js:115
+            throw new error_1.RecordNotFoundError(`No record found for given query '${JSON.stringify(query)}'`, {
+                  ^
+RecordNotFoundError: AnonCredsCredentialDefinitionRecord: No record found for given query '{"$or":[{"credentialDefinitionId":"did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default"},{"unqualifiedCredentialDefinitionId":"did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default"}]}'
+    at AnonCredsCredentialDefinitionRepository.getSingleByQuery (/workspaces/Student-ID/node_modules/@aries-framework/core/build/storage/Repository.js:115:19)
+    at async AnonCredsRsIssuerService.createCredentialOffer (/workspaces/Student-ID/node_modules/@aries-framework/anoncreds-rs/build/services/AnonCredsRsIssuerService.js:61:48)
+    at async AnonCredsCredentialFormatService.createAnonCredsOffer (/workspaces/Student-ID/node_modules/@aries-framework/anoncreds/build/formats/AnonCredsCredentialFormatService.js:341:23)
+    at async AnonCredsCredentialFormatService.createOffer (/workspaces/Student-ID/node_modules/@aries-framework/anoncreds/build/formats/AnonCredsCredentialFormatService.js:108:59)
+    at async CredentialFormatCoordinator.createOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/CredentialFormatCoordinator.js:131:63)
+    at async V2CredentialProtocol.createOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/V2CredentialProtocol.js:226:30)
+    at async CredentialsApi.offerCredential (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/CredentialsApi.js:155:47)
+    at async offerCred (file:///workspaces/Student-ID/utils/cred.js:47:47)
+    at async file:///workspaces/Student-ID/routes/credential.js:30:47 {
+  [cause]: undefined
+}

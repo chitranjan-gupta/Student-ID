@@ -31,10 +31,10 @@ import { send } from './utils/chat.js'
 
 import { genesis } from "./bcovrin.js"
 
-//const stewardseed = "0000000000000000000000000Roshan1"
-//const seed = TypedArrayEncoder.fromString(stewardseed) // What you input on bcovrin. Should be kept secure in production!
-//const unqualifiedIndyDid = `DxRyhqooU79KcCYpMDcPkP` // will be returned after registering seed on bcovrin
-//const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`
+const stewardseed = "0000000000000000000000000Roshan1"
+const seed = TypedArrayEncoder.fromString(stewardseed) // What you input on bcovrin. Should be kept secure in production!
+const unqualifiedIndyDid = `DxRyhqooU79KcCYpMDcPkP` // will be returned after registering seed on bcovrin
+const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`
 
 const getAgent = async () => {
     const config = {
@@ -95,29 +95,48 @@ const run = async () => {
         console.log(payload.basicMessageRecord.content)
     })
     steward.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
-        if (payload.connectionRecord.state === DidExchangeState.ResponseReceived) {
-            const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
-            console.log("Connection Responded")
-            console.log(connectionRecord)
-        }else if (payload.connectionRecord.state === DidExchangeState.RequestReceived) {
-            const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
-            console.log("Connection Requested")
-            console.log(connectionRecord)
-        }else if (payload.connectionRecord.state === DidExchangeState.Completed) {
-            console.log("Connection completed")
-            await send(steward, payload.connectionRecord.id, "Hi thik ba")
+        switch(payload.connectionRecord.state){
+            case DidExchangeState.ResponseReceived:{
+                const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
+                console.log("Connection Responded")
+                console.log(connectionRecord)
+                break
+            }
+            case DidExchangeState.RequestReceived:{
+                const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
+                console.log("Connection Requested")
+                console.log(connectionRecord)    
+                break
+            }
+            case DidExchangeState.Completed:{
+                console.log(`Connection completed`)
+                await send(steward, payload.connectionRecord.id, "Hi Kya hal ba")
+                break
+            }
         }
     })
     steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
-            case CredentialState.OfferReceived:
-                console.log("Received a credential")
-                // custom logic here
-                console.log(payload)
-                await bobAgent.modules.anoncreds.createLinkSecret({ setAsDefault: true })
-                await bobAgent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
-            case CredentialState.Done:
+            case CredentialState.OfferReceived:{
+                console.log(`Received a credential offer ${payload.credentialRecord.id}`)
+                await steward.modules.anoncreds.createLinkSecret({ setAsDefault: true })
+                await steward.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
+                break
+            }
+            case CredentialState.RequestReceived:{
+                console.log(`Received a credential request ${payload.credentialRecord.id}`)
+                await steward.credentials.acceptRequest({ credentialRecordId: payload.credentialRecord.id })
+                break
+            }
+            case CredentialState.CredentialReceived:{
+                console.log(`Received a credential ${payload.credentialRecord.id}`)
+                await steward.credentials.acceptCredential({ credentialRecordId: payload.credentialRecord.id })
+                break
+            }
+            case CredentialState.Done:{
                 console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
+                break
+            }
         }
     })
     const app = express()
