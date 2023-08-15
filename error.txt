@@ -27,3 +27,14 @@ RecordNotFoundError: AnonCredsCredentialDefinitionRecord: No record found for gi
     at async file:///workspaces/Student-ID/routes/credential.js:30:47 {
   [cause]: undefined
 }
+
+/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/V2CredentialProtocol.js:217
+            throw new error_1.AriesFrameworkError(`Unable to create offer. No supported formats`);
+                  ^
+AriesFrameworkError: Unable to create offer. No supported formats
+    at V2CredentialProtocol.createOffer (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/protocol/v2/V2CredentialProtocol.js:217:19)
+    at CredentialsApi.offerCredential (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/credentials/CredentialsApi.js:155:62)
+    at async offerCred (file:///workspaces/Student-ID/utils/cred.js:47:47)
+    at async file:///workspaces/Student-ID/routes/credential.js:30:47 {
+  [cause]: undefined
+}

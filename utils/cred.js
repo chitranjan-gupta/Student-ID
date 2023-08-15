@@ -40,8 +40,20 @@ export const pushCredDef = async (agent, did, schemaId) => {
     }
     return credentialDefinitionResult
 }
-export const credOffer = async () =>{
-    
+export const propCred = async (agent, connectionId, credentialDefinitionId) =>{
+    const anonCredsCredentialExchangeRecord = await agent.credentials.proposeCredential({
+        protocolVersion: 'v2',
+        connectionId: connectionId,
+        credentialFormats: {
+            anoncreds: {
+                credentialDefinitionId: "did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default",
+                attributes: [
+                    { name: 'name', value: 'Jane Doe' },
+                ],
+            },
+        },
+    })
+    return anonCredsCredentialExchangeRecord    
 }
 export const offerCred = async (agent, connectionId, credentialDefinitionId) => {
     const anonCredsCredentialExchangeRecord = await agent.credentials.offerCredential({
@@ -61,4 +73,18 @@ export const offerCred = async (agent, connectionId, credentialDefinitionId) => 
 export const pullLinkSecret = async (agent) => {
     const linkSecret = await agent.modules.anoncreds.getLinkSecretIds();
     return linkSecret
+}
+
+export const reqProof = async (agent, connectionId) => {
+    await agent.proofs.requestProof({
+        connectionId,
+        protocolVersion: "v2",
+        proofFormats:{
+            anoncreds:{
+                requested_attributes:{
+                    
+                }
+            }
+        }
+    })
 }
