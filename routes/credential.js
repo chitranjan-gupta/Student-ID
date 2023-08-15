@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { offerCred, pullLinkSecret } from "../utils/cred.js";
+import { offerCred, propCred, pullLinkSecret } from "../utils/cred.js";
 
 const router = Router()
 
@@ -9,12 +9,13 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:credentialRecordId", async (req, res) => {
-
     res.send(req.params.credentialRecordId);
 })
 
 router.post("/propose-credential", async (req, res) => {
-    res.send("Hello");
+    const json = req.body
+    const anonCredsCredentialExchangeRecord = await propCred(req.steward, json.connectionId, json.credentialDefinitionId)
+    res.json({ anonCredsCredentialExchangeRecord });
 })
 
 router.post("/:credentialRecordId/accept-proposal", async (req, res) => {

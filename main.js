@@ -91,6 +91,7 @@ const getAgent = async () => {
 
 const run = async () => {
     const steward = await getAgent();
+    await steward.modules.anoncreds.createLinkSecret({ setAsDefault: true })
     steward.events.on(BasicMessageEventTypes.BasicMessageStateChanged, async ({ payload }) => {
         console.log(payload.basicMessageRecord.content)
     })
@@ -117,9 +118,13 @@ const run = async () => {
     })
     steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
+            case CredentialState.ProposalReceived:{
+                console.log(`Received a credential proposal ${payload.credentialRecord.id}`)
+                await steward.credentials.acceptProposal({ credentialRecordId: payload.credentialRecord.id })
+                break
+            }
             case CredentialState.OfferReceived:{
                 console.log(`Received a credential offer ${payload.credentialRecord.id}`)
-                await steward.modules.anoncreds.createLinkSecret({ setAsDefault: true })
                 await steward.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
