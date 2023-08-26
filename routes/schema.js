@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { pullSchema } from "../utils/cred.js";
+import { pullSchema, pushSchema } from "../utils/cred.js";
 
 const router = Router()
 
@@ -10,7 +10,9 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    res.send("");
+    const json = req.body
+    const schemaResult = await pushSchema(req.steward, json.did, json.schema)
+    res.json({ schemaResult });
 })
 
 export default router;
