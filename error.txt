@@ -54,3 +54,12 @@ RecordDuplicateError: DidRecord: Multiple records found for given query '{"role"
     at async run (file:///workspaces/Student-ID/index.js:111:5) {
   [cause]: undefined
 }
+
+throw new error_1.AriesFrameworkError(`Unable to resolve did document for did '${did}': ${error} ${message}`);
+                  ^
+AriesFrameworkError: Unable to resolve did document for did 'undefined': invalidDid undefined
+    at DidResolverService.resolveDidDocument (/app/node_modules/@aries-framework/core/build/modules/dids/services/DidResolverService.js:52:19)
+    at async DidsApi.import (/app/node_modules/@aries-framework/core/build/modules/dids/DidsApi.js:100:27)
+    at async run (file:///app/index.js:111:5) {
+  [cause]: undefined
+}
