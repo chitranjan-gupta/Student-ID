@@ -13,7 +13,9 @@ import {
     CredentialState,
     KeyType,
     ProofsModule,
-    V2ProofProtocol
+    V2ProofProtocol,
+    ProofEventTypes,
+    ProofState
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -29,6 +31,10 @@ import oobs from "./routes/oobs.js"
 import credential from "./routes/credential.js"
 import schema from "./routes/schema.js"
 import credentialDef from "./routes/credential-def.js"
+import connection from "./routes/connection.js"
+import did from "./routes/did.js"
+import message from "./routes/message.js"
+import proof from "./routes/proof.js"
 import { acceptConnection, acceptConnectionBack } from "./utils/request.js"
 import { send } from './utils/chat.js'
 
@@ -37,14 +43,14 @@ import { genesis } from "./bcovrin.js"
 const stewardseed = "0000000000000000000000000Roshan1"
 const seed = TypedArrayEncoder.fromString(stewardseed) // What you input on bcovrin. Should be kept secure in production!
 const unqualifiedIndyDid = `DxRyhqooU79KcCYpMDcPkP` // will be returned after registering seed on bcovrin
-const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`
+const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`//did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP
 
 const getAgent = async () => {
     const config = {
-        label: 'Student',
+        label: 'College',
         walletConfig: {
-            id: 'teststudent',
-            key: process.env.AGENT_WALLET_KEY || 'teststudent',
+            id: 'testcollege',
+            key: process.env.AGENT_WALLET_KEY || 'testcollege',
         },
         endpoints: ["http://localhost:5001"],
     }
@@ -139,20 +145,8 @@ const run = async () => {
     })
     steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
-            case CredentialState.ProposalReceived:{
+            case CredentialState.ProposalReceived: {
                 console.log(`Received a credential proposal ${payload.credentialRecord.id}`)
-                
-                await steward.credentials.acceptProposal({
-                    credentialRecordId:payload.credentialRecord.id,
-                    credentialFormats: {
-                        anoncreds: {
-                            credentialDefinitionId: "did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP/anoncreds/v0/CLAIM_DEF/12642/default",
-                            attributes: [
-                                { name: 'name', value: 'Jane Doe' },
-                            ],
-                        },
-                    },
-                })
                 break
             }
             case CredentialState.OfferReceived: {
@@ -176,6 +170,30 @@ const run = async () => {
             }
         }
     })
+    steward.events.on(ProofEventTypes.ProofStateChanged, async ({ payload }) => {
+        switch (payload.proofRecord.state) {
+            case ProofState.PresentationReceived:{
+                console.log("Presentation Received")
+                console.log(payload)
+                break;
+            }
+            case ProofState.Done: {
+                const formattedData = await steward.proofs.getFormatData(
+                    payload.proofRecord.id
+                )
+                const items = Object.entries(
+                    formattedData.presentation?.anoncreds.requested_proof
+                        .revealed_attr_groups.identity.values
+                )
+                console.log("============= Presentation ==============")
+                items.forEach(([key, { raw }]) => {
+                    console.log(`- ${key}: ${raw}`)
+                })
+                console.log("=========================================")
+                break
+            }
+        }
+    })
     const app = express()
     app.use(cors())
     app.use(
@@ -192,6 +210,10 @@ const run = async () => {
     app.use("/credential", credential);
     app.use("/schema", schema);
     app.use("/credential-def", credentialDef);
+    app.use("/did", did);
+    app.use("/message", message);
+    app.use("/proof", proof);
+    app.use("/connection", connection);
     await startServer(steward, {
         app: app,
         port: 5000,

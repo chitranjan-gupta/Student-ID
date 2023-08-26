@@ -38,3 +38,19 @@ AriesFrameworkError: Unable to create offer. No supported formats
     at async file:///workspaces/Student-ID/routes/credential.js:30:47 {
   [cause]: undefined
 }
+
+        throw new Error(`Error creating schema: ${schemaResult.schemaState.reason}`)
+              ^
+
+Error: Error creating schema: unknownError: IndyError(WalletItemNotFound): WalletItemNotFound
+    at pushSchema (file:///workspaces/Student-ID/utils/cred.js:16:15)
+    at async file:///workspaces/Student-ID/routes/schema.js:14:26
+
+            throw new error_1.RecordDuplicateError(`Multiple records found for given query '${JSON.stringify(query)}'`, {
+                  ^
+RecordDuplicateError: DidRecord: Multiple records found for given query '{"role":"created"}'
+    at DidRepository.findSingleByQuery (/workspaces/Student-ID/node_modules/@aries-framework/core/build/storage/Repository.js:96:19)
+    at async DidsApi.import (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/dids/DidsApi.js:95:35)
+    at async run (file:///workspaces/Student-ID/index.js:111:5) {
+  [cause]: undefined
+}
