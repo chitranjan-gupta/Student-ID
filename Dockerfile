@@ -21,18 +21,21 @@ RUN apt-get install -y nodejs
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CE7709D068DB5E88
 ARG indy_stream=stable
+RUN echo "deb http://security.ubuntu.com/ubuntu focal-security main" | tee /etc/apt/sources.list.d/focal-security.list
 RUN add-apt-repository "deb https://repo.sovrin.org/sdk/deb bionic $indy_stream"
 
 RUN useradd -ms /bin/bash -u $uid indy
 
 RUN apt-get update -y && apt-get install -y \
-    libsodium-dev \
+    libssl1.1 \
+	libsodium-dev \
     libzmq3-dev \
 	vim \
 	libindy \
 	indy-cli \
     libnullpay \
     libvcx
+RUN rm /etc/apt/sources.list.d/focal-security.list
 
 RUN mkdir /app
 COPY . /app
