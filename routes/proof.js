@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { reqProof } from "../utils/cred.js";
 
 const router = Router()
 
@@ -23,7 +24,9 @@ router.post("/request-outofband-proof", async (req,res) => {
 })
 
 router.post("/request-proof", async (req,res) => {
-    res.send("Hello");
+    const json = req.body
+    await reqProof(req.steward, json.connectionId)
+    res.json({});
 })
 
 router.post("/:proofRecordId/accept-request", async (req,res) => {
