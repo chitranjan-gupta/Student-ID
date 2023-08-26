@@ -10,7 +10,9 @@ import {
     V2CredentialProtocol,
     BasicMessageEventTypes,
     CredentialEventTypes,
-    CredentialState
+    CredentialState,
+    ProofEventTypes,
+    ProofState
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -26,6 +28,10 @@ import oobs from "./routes/oobs.js"
 import credential from "./routes/credential.js"
 import schema from "./routes/schema.js"
 import credentialDef from "./routes/credential-def.js"
+import connection from "./routes/connection.js"
+import did from "./routes/did.js"
+import message from "./routes/message.js"
+import proof from "./routes/proof.js"
 import { acceptConnection, acceptConnectionBack } from "./utils/request.js"
 import { send } from './utils/chat.js'
 
@@ -38,10 +44,10 @@ const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`
 
 const getAgent = async () => {
     const config = {
-        label: 'College',
+        label: 'Student',
         walletConfig: {
-            id: 'testcollege',
-            key: process.env.AGENT_WALLET_KEY || 'testcollege',
+            id: 'teststudent',
+            key: process.env.AGENT_WALLET_KEY || 'teststudent',
         },
         endpoints: ["http://localhost:5002"],
     }
@@ -96,20 +102,20 @@ const run = async () => {
         console.log(payload.basicMessageRecord.content)
     })
     steward.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
-        switch(payload.connectionRecord.state){
-            case DidExchangeState.ResponseReceived:{
+        switch (payload.connectionRecord.state) {
+            case DidExchangeState.ResponseReceived: {
                 const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
                 console.log("Connection Responded")
                 console.log(connectionRecord)
                 break
             }
-            case DidExchangeState.RequestReceived:{
+            case DidExchangeState.RequestReceived: {
                 const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
                 console.log("Connection Requested")
-                console.log(connectionRecord)    
+                console.log(connectionRecord)
                 break
             }
-            case DidExchangeState.Completed:{
+            case DidExchangeState.Completed: {
                 console.log(`Connection completed`)
                 await send(steward, payload.connectionRecord.id, "Hi Kya hal ba")
                 break
@@ -118,28 +124,57 @@ const run = async () => {
     })
     steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
-            case CredentialState.ProposalReceived:{
+            case CredentialState.ProposalReceived: {
                 console.log(`Received a credential proposal ${payload.credentialRecord.id}`)
                 await steward.credentials.acceptProposal({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
-            case CredentialState.OfferReceived:{
+            case CredentialState.OfferReceived: {
                 console.log(`Received a credential offer ${payload.credentialRecord.id}`)
                 await steward.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
-            case CredentialState.RequestReceived:{
+            case CredentialState.RequestReceived: {
                 console.log(`Received a credential request ${payload.credentialRecord.id}`)
                 await steward.credentials.acceptRequest({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
-            case CredentialState.CredentialReceived:{
+            case CredentialState.CredentialReceived: {
                 console.log(`Received a credential ${payload.credentialRecord.id}`)
                 await steward.credentials.acceptCredential({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
-            case CredentialState.Done:{
+            case CredentialState.Done: {
                 console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
+                break
+            }
+        }
+    })
+    steward.events.on(ProofEventTypes.ProofStateChanged, async ({ payload }) => {
+        switch (payload.proofRecord.state) {
+            case ProofState.RequestReceived: {
+                console.log("Proof Request")
+                console.log(payload)
+                break;
+            }
+            case ProofState.PresentationReceived:{
+                console.log("Presentation Received")
+                console.log(payload)
+                break;
+            }
+            case ProofState.Done: {
+                const formattedData = await steward.proofs.getFormatData(
+                    payload.proofRecord.id
+                )
+                const items = Object.entries(
+                    formattedData.presentation?.anoncreds.requested_proof
+                        .revealed_attr_groups.identity.values
+                )
+                console.log("============= Presentation ==============")
+                items.forEach(([key, { raw }]) => {
+                    console.log(`- ${key}: ${raw}`)
+                })
+                console.log("=========================================")
                 break
             }
         }
@@ -160,6 +195,10 @@ const run = async () => {
     app.use("/credential", credential);
     app.use("/schema", schema);
     app.use("/credential-def", credentialDef);
+    app.use("/did", did);
+    app.use("/message", message);
+    app.use("/proof", proof);
+    app.use("/connection", connection);
     await startServer(steward, {
         app: app,
         port: 8000,
