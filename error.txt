@@ -63,3 +63,11 @@ AriesFrameworkError: Unable to resolve did document for did 'undefined': invalid
     at async run (file:///app/index.js:111:5) {
   [cause]: undefined
 }
+
+throw new Error(`Error creating schema: ${schemaResult.schemaState.reason}`)
+              ^
+Error: Error creating schema: unknownError: IndyError(WalletItemNotFound): WalletItemNotFound
+    at pushSchema (file:///workspaces/Student-ID/utils/cred.js:16:15)
+    at async file:///workspaces/Student-ID/routes/schema.js:14:26
+
+Node.js v20.5.1

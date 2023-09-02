@@ -1,36 +1,47 @@
 "use client";
-import {useState, useRef} from "react";
-import Connect from "./connect";
-import { ThemeProvider,Stepper, Step, Carousel, Button, IconButton } from "@material-tailwind/react";
+import { useState, useRef, useEffect } from "react";
+import { Stepper, Step, Carousel, Button, IconButton } from "@material-tailwind/react";
 import {
   CogIcon,
   UserIcon,
   BuildingLibraryIcon
 } from "@heroicons/react/24/outline";
+import Connect from "./connect";
 import Wallet from "./wallet";
 import Register from "./register";
- 
+
 export default function Home() {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStep, setIsLastStep] = useState(false);
-  const [isFirstStep, setIsFirstStep] =useState(false);
+  const [isFirstStep, setIsFirstStep] = useState(false);
+  const [oob, setOob] = useState({})
+  const [isLast, setIsLast] = useState(true);
   const showPrev = useRef();
   const showNext = useRef();
   const handleNext = () => {
-    if(!isLastStep){
+    if (!isLastStep && !isLast) {
       setActiveStep((cur) => cur + 1);
       showNext.current.click();
     }
   }
   const handlePrev = () => {
-    if(!isFirstStep ){
+    if (!isFirstStep) {
       setActiveStep((cur) => cur - 1);
       showPrev.current.click();
     }
   }
+  const getOOBUrl = async () => {
+    const res = await fetch("/api/oob");
+    const data = await res.json();
+    setOob(data);
+  }
+  useEffect(() => {
+    if (oob.invitationUrl) {
+      setIsLast(false)
+    }
+  }, [oob])
   return (
-    <ThemeProvider>
-    <div className="w-full h-full px-24 py-4 overflow-hidden">
+    <div className="w-full h-full px-40 pt-20 overflow-hidden">
       <Stepper
         activeStep={activeStep}
         isLastStep={(value) => setIsLastStep(value)}
@@ -38,7 +49,7 @@ export default function Home() {
         className="w-full h-5"
       >
         <Step onClick={() => setActiveStep(0)}>
-            <UserIcon className="h-5 w-5" />
+          <UserIcon className="h-5 w-5" />
         </Step>
         <Step onClick={() => setActiveStep(1)}>
           <CogIcon className="h-5 w-5" />
@@ -50,14 +61,13 @@ export default function Home() {
           <BuildingLibraryIcon className="h-5 w-5" />
         </Step>
       </Stepper>
-      <Carousel className="rounded-xl w-full h-3/4 mt-2 overflow-hidden" transition={{ duration: 1 }}  navigation={({ setActiveIndex, activeIndex, length }) => (
+      <Carousel className="rounded-xl w-full h-3/4 mt-2 overflow-hidden" transition={{ duration: 1 }} navigation={({ setActiveIndex, activeIndex, length }) => (
         <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
           {new Array(length).fill("").map((_, i) => (
             <span
               key={i}
-              className={`hidden h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-                activeIndex === i ? "w-8 bg-black" : "w-4 bg-black/50"
-              }`}
+              className={`hidden h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-8 bg-black" : "w-4 bg-black/50"
+                }`}
               onClick={() => setActiveIndex(i)}
             />
           ))}
@@ -111,35 +121,34 @@ export default function Home() {
           </svg>
         </IconButton>
       )}>
-      <div className="relative w-full h-full">
-        <div className="absolute inset-0 grid h-full w-full place-items-center">
-        <Wallet />
+        <div className="relative w-full h-full">
+          <div className="absolute inset-0 grid h-full w-full place-items-center">
+            <Wallet choose={getOOBUrl} />
+          </div>
         </div>
-      </div>
-      <div className="relative w-full h-full">
-        <div className="absolute inset-0 grid h-full w-full place-items-center">
-            <Connect />
+        <div className="relative w-full h-full">
+          <div className="absolute inset-0 grid h-full w-full place-items-center">
+            <Connect url={oob} />
+          </div>
         </div>
-      </div>
-      <div className="relative w-full h-full">
-        <div className="absolute inset-0 grid h-full w-full place-items-center">
-            <Register forward={handleNext}/>
+        <div className="relative w-full h-full">
+          <div className="absolute inset-0 grid h-full w-full place-items-center">
+            <Register forward={handleNext} />
+          </div>
         </div>
-      </div>
-      <div className="relative w-full h-full">
-        <div className="absolute inset-0 grid h-full w-full place-items-center">
+        <div className="relative w-full h-full">
+          <div className="absolute inset-0 grid h-full w-full place-items-center">
+          </div>
         </div>
-      </div>
       </Carousel>
       <div className="flex justify-between">
         <Button onClick={handlePrev} disabled={isFirstStep}>
           Prev
         </Button>
-        <Button onClick={handleNext} disabled={isLastStep}>
+        <Button onClick={handleNext} disabled={isLast}>
           Next
         </Button>
       </div>
     </div>
-    </ThemeProvider>
   );
 }
