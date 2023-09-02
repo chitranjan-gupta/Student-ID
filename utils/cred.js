@@ -5,7 +5,7 @@ export const pullSchema = async (agent, schemaId) => {
 export const pushSchema = async (agent, did, schema) => {
     const schemaResult = await agent.modules.anoncreds.registerSchema({
         schema: {
-            attrNames: ['name'],
+            attrNames: ['first_name', 'last_name'],
             issuerId: did,
             name: 'Test Schema to register',
             version: '1.0.0',
@@ -48,14 +48,15 @@ export const propCred = async (agent, connectionId, credentialDefinitionId) => {
             anoncreds: {
                 credentialDefinitionId: credentialDefinitionId,
                 attributes: [
-                    { name: 'name', value: 'Jane Doe' },
+                    { name: 'first_name', value: 'Jane' },
+                    { name: 'last_name', value: 'Doe' }
                 ],
             },
         },
     })
     return anonCredsCredentialExchangeRecord
 }
-export const offerCred = async (agent, connectionId, credentialDefinitionId) => {
+export const offerCred = async (agent, connectionId, credentialDefinitionId, first_name, last_name) => {
     const anonCredsCredentialExchangeRecord = await agent.credentials.offerCredential({
         protocolVersion: 'v2',
         connectionId: connectionId,
@@ -63,7 +64,8 @@ export const offerCred = async (agent, connectionId, credentialDefinitionId) => 
             anoncreds: {
                 credentialDefinitionId: credentialDefinitionId,
                 attributes: [
-                    { name: 'name', value: 'Jane Doe' },
+                    { name: 'first_name', value: 'Jane' },
+                    { name: 'last_name', value: 'Doe' }
                 ],
             },
         },

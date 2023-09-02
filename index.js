@@ -109,7 +109,7 @@ const getAgent = async () => {
 const run = async () => {
     const steward = await getAgent();
     await steward.dids.import({
-        indyDid,
+        did:indyDid,
         overwrite: true,
         privateKeys: [
             {

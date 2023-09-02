@@ -28,7 +28,7 @@ router.post("/create-offer", async (req, res) => {
 
 router.post("/offer-credential", async (req, res) => {
     const json = req.body
-    const anonCredsCredentialExchangeRecord = await offerCred(req.steward, json.connectionId, json.credentialDefinitionId)
+    const anonCredsCredentialExchangeRecord = await offerCred(req.steward, json.connectionId, json.credentialDefinitionId, json.first_name, json.last_name)
     res.json({ anonCredsCredentialExchangeRecord });
 })
 
