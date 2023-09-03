@@ -16,9 +16,11 @@
     ],
     "ios": {
       "bitcode": false,
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chitranjan.studentid"
     },
     "android": {
+      "package": "com.chitranjan.studentid",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -27,6 +29,14 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["@animo-id/indy-sdk-expo-plugin"]
+    "plugins": [
+      "@animo-id/indy-sdk-expo-plugin",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow to access your camera."
+        }
+      ]
+    ]
   }
 }
