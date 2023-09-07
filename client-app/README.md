@@ -1,5 +1,6 @@
 # Build locally
 ## On Github Codespace
+## Setup the environment
 1. On github codespace nodejs is installed using nvm (node version manager)
     > Everything will work fine but to build the application we need superuser privilege.
     > But on github codespace nodejs does not have sudo privilege
@@ -11,12 +12,24 @@
 5. Now we reinstall nodejs with sudo privilege
 6. `sudo curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -`
 7. `sudo apt install nodejs`
-8. `sudo apt install build-essential`
-9. `sudo npm install -g eas-cli`
-10. `sudo eas login`
-11. `sudo npx expo prebuild`
-11. `sudo eas build:configure` optional
-12. `sudo eas build --platform android` for remotely `eas build --platform android --local` for locally
+8. `sudo npm install -g eas-cli`
+
+## You may also need development tools to build native addons:
+     sudo apt-get install gcc g++ make build-essential
+## To install the Yarn package manager, run:
+    `sudo curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null`
+    `echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
+    `sudo apt-get update && sudo apt-get install yarn`
+
+## Build
+1. `sudo eas login`
+2. `sudo npx expo prebuild` optional
+3. `sudo eas build:configure` optional
+4. `sudo eas build --platform android` for remotely `eas build --platform android --local` for locally
+
+## Installing the app
+1. Download the bundletool from https://developer.android.com/tools/bundletool
+2. `java -jar bundletool.jar build-apks --bundle=build.aab --output=test.apks`
 
 sources:
 1. https://docs.expo.dev/build/setup/
@@ -26,3 +39,5 @@ sources:
 5. https://github.com/expo/eas-cli/issues/1300
 6. https://github.com/facebook/react-native/issues/33623
 7. https://www.npmjs.com/package/react-native-config
+8. https://github.com/nodesource/distributions
+9. https://linuxconfig.org/how-to-run-jar-file-on-linux
