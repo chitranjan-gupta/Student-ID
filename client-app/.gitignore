@@ -34,6 +34,9 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-android-sdk/
+# local app build
 bundletool.jar
 build-apks/
+build-*.aab
+
+temp.js

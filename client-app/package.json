@@ -48,6 +48,7 @@
     "expo-system-ui": "~2.4.0",
     "https": "^1.0.0",
     "indy-sdk-react-native": "^0.3.1",
+    "jsc-android": "^250231.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "^0.71.13",

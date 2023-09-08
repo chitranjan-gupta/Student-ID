@@ -1,0 +1,285 @@
+/tmp/root/eas-build-local-nodejs/960cb3c1-341b-4ca2-8982-29f446946397/build/client-app/android/app/src/main/java/com/chitranjan/studentid/MainApplication.java:65: error: cannot find symbol
+[RUN_GRADLEW]       ReactFeatureFlags.unstable_useRuntimeSchedulerAlways = false;
+[RUN_GRADLEW]                        ^
+[RUN_GRADLEW]   symbol:   variable unstable_useRuntimeSchedulerAlways
+[RUN_GRADLEW]   location: class ReactFeatureFlags
+[RUN_GRADLEW] /tmp/root/eas-build-local-nodejs/960cb3c1-341b-4ca2-8982-29f446946397/build/client-app/android/app/src/main/java/com/chitranjan/studentid/MainActivity.java:49: error: constructor DefaultReactActivityDelegate in class DefaultReactActivityDelegate cannot be applied to given types;
+[RUN_GRADLEW]     return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, new DefaultReactActivityDelegate(
+[RUN_GRADLEW]                                                                                            ^
+[RUN_GRADLEW]   required: ReactActivity,String,boolean,boolean
+[RUN_GRADLEW]   found: MainActivity,String,boolean
+[RUN_GRADLEW]   reason: actual and formal argument lists differ in length
+[RUN_GRADLEW] 2 errors
+
+Fixing with https://www.npmjs.com/package/react-native-config
+
+
+E:\Ref\bundle-test>java -jar bundletool.jar install-apks --apks=test.apks
+The APKs have been extracted in the directory: C:\Users\CHITRA~1\AppData\Local\Temp\5850628768553071265
+
+E:\Ref\bundle-test>adb logcat -e "com.chitranjan"
+--------- beginning of crash
+09-08 13:27:45.889 13150 13174 E AndroidRuntime: FATAL EXCEPTION: create_react_context
+09-08 13:27:45.889 13150 13174 E AndroidRuntime: Process: com.chitranjan.studentid, PID: 13150
+09-08 13:27:45.889 13150 13174 E AndroidRuntime: java.lang.IllegalStateException: Native module RNCConfigModule tried to override RNCConfigModule. Check the getPackages() method in MainApplication.java, it might be that module is being created twice. If this was your intention, set canOverrideExistingModule=true. This error may also be present if the package is present only once in getPackages() but is also automatically added later during build time by autolinking. Try removing the existing entry and rebuild.
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.NativeModuleRegistryBuilder.processPackage(NativeModuleRegistryBuilder.java:55)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackage(ReactInstanceManager.java:1456)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackages(ReactInstanceManager.java:1427)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.createReactContext(ReactInstanceManager.java:1338)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.access$1200(ReactInstanceManager.java:135)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager$5.run(ReactInstanceManager.java:1109)
+09-08 13:27:45.889 13150 13174 E AndroidRuntime:        at java.lang.Thread.run(Thread.java:920)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime: FATAL EXCEPTION: create_react_context
+09-08 13:30:22.520 13261 13288 E AndroidRuntime: Process: com.chitranjan.studentid, PID: 13261
+09-08 13:30:22.520 13261 13288 E AndroidRuntime: java.lang.IllegalStateException: Native module RNCConfigModule tried to override RNCConfigModule. Check the getPackages() method in MainApplication.java, it might be that module is being created twice. If this was your intention, set canOverrideExistingModule=true. This error may also be present if the package is present only once in getPackages() but is also automatically added later during build time by autolinking. Try removing the existing entry and rebuild.
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.NativeModuleRegistryBuilder.processPackage(NativeModuleRegistryBuilder.java:55)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackage(ReactInstanceManager.java:1456)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackages(ReactInstanceManager.java:1427)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.createReactContext(ReactInstanceManager.java:1338)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.access$1200(ReactInstanceManager.java:135)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager$5.run(ReactInstanceManager.java:1109)
+09-08 13:30:22.520 13261 13288 E AndroidRuntime:        at java.lang.Thread.run(Thread.java:920)
+--------- beginning of system
+09-08 14:19:11.580   835  6631 I PackageManager: START DELETE PACKAGE: observer{56453138}
+09-08 14:19:11.580   835  6631 I PackageManager: pkg{com.chitranjan.studentid}, user{0}, caller{10065} flags{0}
+09-08 14:19:11.582   835   904 I ActivityManager: Force stopping com.chitranjan.studentid appid=10255 user=0: deletePackageX
+09-08 14:19:12.297   835   928 D AASA_PackageManager_RESTRICTED: Uninstall : userId = 0, info.removedAppID = 10255, info.uid = 10255, packageName = com.chitranjan.studentid
+09-08 14:19:12.304   835   928 I ActivityManager: Force stopping com.chitranjan.studentid appid=10255 user=0: pkg removed
+09-08 14:19:12.525   835   893 D CompanionDeviceManagerService: onPackageRemoved(packageName = com.chitranjan.studentid, uid = 10255)
+09-08 14:19:12.532   835   969 V StorageManagerService: Package com.chitranjan.studentid does not have legacy storage
+09-08 14:19:12.539   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemonitor.impl.PackageMonitorReceiverImpl$RegisteredReceiver
+09-08 14:19:12.539   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemonitor.backgroundimpl.BackgroundPackageMonitorReceiverImpl$RegisteredReceiver
+09-08 14:19:12.540   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.instantapps.appmanagement.InstantAppRemoveMonitor
+09-08 14:19:12.540   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.aura.oobe.samsung/com.ironsource.aura.profiler_integrator.internal.client.event_producer.apps.ChangedPackagesReceiver
+09-08 14:19:12.540   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+09-08 14:19:12.541   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+09-08 14:19:12.541   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.videos/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver
+09-08 14:19:12.560   835   947 I RollbackManager: broadcast=ACTION_PACKAGE_FULLY_REMOVED pkg=com.chitranjan.studentid
+09-08 14:19:12.562   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.sec.android.app.samsungapps/com.samsung.android.iap.receiver.IapReceiver
+09-08 14:19:12.568   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_REMOVED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.sec.imsservice/com.sec.internal.ims.imsservice.ImsIntentReceiver
+09-08 14:19:12.596   835   835 I GameManagerService: Disabling downscale for com.chitranjan.studentid
+09-08 14:19:12.726   835   835 I Telecom : CarModeTracker: Package com.chitranjan.studentid is not tracked.: SSH.oR@J94
+09-08 14:19:12.776   835   835 I ConditionProviders: Disallowing condition provider com.chitranjan.studentid (userSet: true)
+09-08 14:19:13.849   835   835 I Telecom:SamsungTelecomServiceImpl: clearAccounts - packageName : com.chitranjan.studentid / callingPid : 835 / processName : sts
+--------- beginning of main
+09-08 15:03:47.418 14174 14174 I Finsky  : [2] afzl.c(66): VerifyApps: Install-time verification requested for package com.chitranjan.studentid, id = 16
+09-08 15:03:47.440 14174 16828 I Finsky  : [9712] VerifyAppsInstallTask.alc(58): VerifyApps: Anti-malware verification task started for package=com.chitranjan.studentid
+09-08 15:03:48.166   835   928 I PackageManager: START INSTALL PACKAGE: observer{266081001}
+09-08 15:03:48.166   835   928 I PackageManager:           stagedDir{/data/app/vmdl1997889711.tmp}
+09-08 15:03:48.166   835   928 I PackageManager:           stagedCid{null}
+09-08 15:03:48.166   835   928 I PackageManager:           pkg{com.chitranjan.studentid}
+09-08 15:03:48.166   835   928 I PackageManager:           Request from{null}
+09-08 15:03:48.168 14174 14174 I Finsky  : [2] VerifyInstallTask.alb(53): VerifyApps: Verification complete: id=16, package_name=com.chitranjan.studentid
+09-08 15:03:48.294  1921  1941 I MediaProvider: Invalidating LocalCallingIdentity cache for package com.chitranjan.studentid. Reason: op android:read_external_storage
+09-08 15:03:48.296  1921  1941 I MediaProvider: Invalidating LocalCallingIdentity cache for package com.chitranjan.studentid. Reason: op android:read_external_storage
+09-08 15:03:48.296  1921  1941 I MediaProvider: Invalidating LocalCallingIdentity cache for package com.chitranjan.studentid. Reason: op android:read_external_storage
+09-08 15:03:48.335   835   928 I PackageDexOptimizer: Running dexopt (dexoptNeeded=1) on: /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk pkg=com.chitranjan.studentid isa=arm dexoptFlags=boot_complete,profile_guided,public,enable_hidden_api_checks targetFilter=speed-profile oatDir=/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/oat classLoaderContext=PCL[]{} async=false
+09-08 15:03:48.337   602   623 V installd: DexInv: --- BEGIN '/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk' ---
+09-08 15:03:48.337   602   623 V installd: Running /apex/com.android.art/bin/dex2oat32 in=base.apk out=/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/oat/arm/base.odex
+09-08 15:03:48.443 16832 16832 I dex2oat32: /apex/com.android.art/bin/dex2oat32 --input-vdex-fd=-1 --output-vdex-fd=10 --classpath-dir=/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw== --class-loader-context=PCL[]{} --compact-dex-level=none --compiler-filter=speed-profile --compilation-reason=install --max-image-block-size=524288 --resolve-startup-const-strings=true --generate-mini-debug-info --compile-individually
+09-08 15:03:50.356   602   623 V installd: DexInv: --- END '/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk' (success) ---
+09-08 15:03:50.382   835   928 V BackupManagerService: [UserID:0] restoreAtInstall pkg=com.chitranjan.studentid token=11 restoreSet=0
+09-08 15:03:50.400  1921  1921 I MediaProvider: Invalidating LocalCallingIdentity cache for package com.chitranjan.studentid. Reason: package android.intent.action.PACKAGE_ADDED
+09-08 15:03:50.407   835  1981 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
+09-08 15:03:50.408   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemonitor.impl.PackageMonitorReceiverImpl$RegisteredReceiver
+09-08 15:03:50.409   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemonitor.backgroundimpl.BackgroundPackageMonitorReceiverImpl$RegisteredReceiver
+09-08 15:03:50.427  1056  1056 I VvmPkgInstalledRcvr: onReceive() : action android.intent.action.PACKAGE_ADDED packageName :com.chitranjan.studentid
+09-08 15:03:50.434   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.aura.oobe.samsung/com.ironsource.appmanager.receivers.SystemEventsBroadcastReceiver
+09-08 15:03:50.434   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.aura.oobe.samsung/com.ironsource.aura.profiler_integrator.internal.client.event_producer.apps.ChangedPackagesReceiver
+09-08 15:03:50.434   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+09-08 15:03:50.434   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+09-08 15:03:50.436   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+09-08 15:03:50.436   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.samsung.android.sm.go/.common.SmartManagerReceiver
+09-08 15:03:50.437   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.sec.android.app.samsungapps/.receiver.PackageAddedReceiver
+09-08 15:03:50.437   835   904 W BroadcastQueue: Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 (has extras) } to com.sec.imsservice/com.sec.internal.ims.imsservice.ImsIntentReceiver
+09-08 15:03:50.455  1056  1056 D ImsResolver: maybeAddedImsService, packageName: com.chitranjan.studentid
+09-08 15:03:50.489 14174 14174 I Finsky  : [2] jlr.f(9): AIM: AppInfoCacheUpdater -> invalidating apps: [com.chitranjan.studentid]
+09-08 15:03:50.493 14174 14241 I Finsky  : [9633] jnn.a(53): AIM: AppInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed  in cache (limit 10) : [com.chitranjan.studentid]
+09-08 15:03:50.494 14174 16872 I Finsky  : [9721] kap.a(433): Asset module storage cleared for package com.chitranjan.studentid.
+09-08 15:03:50.499   835   923 E VerityUtils: Failed to measure fs-verity, errno 1: /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk
+09-08 15:03:50.513 27447 16870 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+09-08 15:03:50.518 27447 16870 W GCM     : Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.chitranjan.studentid flg=0x4000010 pkg=com.google.android.gms cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+09-08 15:03:50.702   835   903 D LauncherAppsService: Callback onPackageAdded: com.chitranjan.studentid, userId: 0, listener: com.android.systemui
+09-08 15:03:50.702   835   903 D LauncherAppsService: Callback onPackageAdded: com.chitranjan.studentid, userId: 0, listener: com.sec.android.app.launcher
+09-08 15:03:50.703  1364  1447 D PackageUpdatedTask: mAllAppsList.addPackage com.chitranjan.studentid
+09-08 15:04:25.333   835  1987 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.chitranjan.studentid/.MainActivity bnds=[536,462][700,652]} from uid 10056
+09-08 15:04:25.350   517   961 I SurfaceFlinger: id=15274 createSurf (0x0),-1 flag=80004, ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity#0
+09-08 15:04:25.352   835  1987 D WindowManager: CustomStartingWindowData: className=com.chitranjan.studentid.MainActivity, packageName=com.chitranjan.studentid, taskUserId=0
+09-08 15:04:25.368   835   896 D StorageManagerService: getExternalStorageMountMode: uid=10256 packageName=com.chitranjan.studentid
+09-08 15:04:25.368   517   961 I SurfaceFlinger: id=15275 createSurf (0x0),-1 flag=80004, 8f24b95 Splash Screen com.chitranjan.studentid#0
+09-08 15:04:25.373   835  6047 V WindowManager: Setting visibility of Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: true, caller=com.android.server.wm.WindowContainer.sendAppVisibilityToClients:996 com.android.server.wm.ActivityRecord.setClientVisible:6188 com.android.server.wm.ActivityRecord.setVisibility:4785 com.android.server.wm.ActivityRecord.setVisibility:4689 com.android.server.wm.EnsureActivitiesVisibleHelper.makeVisibleAndRestartIfNeeded:219
+09-08 15:04:25.390   835  6047 V WindowManager: Relayout Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: viewVisibility=0 req=720x1600 d0
+09-08 15:04:25.394   517   961 I SurfaceFlinger: id=15276 createSurf (1x1),-3 flag=40004, Splash Screen com.chitranjan.studentid#0
+09-08 15:04:25.395   835  6047 D WindowManager: makeSurface duration=4 name=Splash Screen com.chitranjan.studentid
+09-08 15:04:25.400   835   905 I ActivityManager: Start proc 16944:com.chitranjan.studentid/u0a256 for pre-top-activity {com.chitranjan.studentid/com.chitranjan.studentid.MainActivity}
+09-08 15:04:25.401   835  6047 D WindowManager: rotationForOrientation, orientationSource=ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity t299}
+09-08 15:04:25.434   835  6047 D WindowManager: finishDrawingWindow: Window{8f24b95 u0 Splash Screen com.chitranjan.studentid} mDrawState=DRAW_PENDING
+09-08 15:04:25.442   835   897 V WindowManager: Setting visibility of Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: true, caller=com.android.server.wm.WindowContainer.sendAppVisibilityToClients:996 com.android.server.wm.ActivityRecord.setClientVisible:6188 com.android.server.wm.ActivityRecord.postApplyAnimation:4939 com.android.server.wm.ActivityRecord.commitVisibility:4902 com.android.server.wm.AppTransitionController.handleOpeningApps:756
+09-08 15:04:25.452  1083  1229 D InsetsSourceConsumer: ensureControlAlpha: for ITYPE_NAVIGATION_BAR on Splash Screen com.chitranjan.studentid
+09-08 15:04:25.452   835  6047 D ActivityManager: attachApplicationLocked() app=ProcessRecord{8bc7c9e 16944:com.chitranjan.studentid/u0a256} app.isolatedEntryPoint=null instr2=null
+09-08 15:04:25.453  1083  1229 D InsetsSourceConsumer: ensureControlAlpha: for ITYPE_STATUS_BAR on Splash Screen com.chitranjan.studentid
+09-08 15:04:25.454   835  6047 D WindowManager: rotationForOrientation, orientationSource=ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity t299}
+09-08 15:04:25.458   835  6047 V WindowManager: Setting visibility of Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: true, caller=com.android.server.wm.WindowContainer.sendAppVisibilityToClients:996 com.android.server.wm.ActivityRecord.setClientVisible:6188 com.android.server.wm.ActivityRecord.setVisibility:4785 com.android.server.wm.ActivityRecord.setVisibility:4689 com.android.server.wm.ActivityTaskSupervisor.realStartActivityLocked:809
+09-08 15:04:25.460   835  6047 V WindowManager: Setting visibility of Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: true, caller=com.android.server.wm.WindowContainer.sendAppVisibilityToClients:996 com.android.server.wm.ActivityRecord.setClientVisible:6188 com.android.server.wm.ActivityRecord.setVisibility:4785 com.android.server.wm.ActivityRecord.setVisibility:4689 com.android.server.wm.ActivityRecord.completeResumeLocked:5582
+09-08 15:04:25.463 16944 16944 D ActivityThread: handleBindApplication()++ app=com.chitranjan.studentid
+09-08 15:04:25.464   835   896 V ActivityManager: Changed top to ProcessRecord{8bc7c9e 16944:com.chitranjan.studentid/u0a256}
+09-08 15:04:25.467   517   517 D SurfaceFlinger: Display 0 HWC layers:
+09-08 15:04:25.467   517   517 D SurfaceFlinger:      CLIENT | 0xf68e2c80 | 0100 | RGBx_8888    |    0.0    0.0  720.0 1600.0 |    0    0  720 1600 | Wallpaper BBQ wrapper#0
+09-08 15:04:25.467   517   517 D SurfaceFlinger:      CLIENT | 0xf68e3c40 | 0100 | RGBA_8888    |    0.0    0.0  720.0 1600.0 |    0    0  720 1600 | com.sec.android.app.launcher/com.android.launcher3.infra.activity.Launcher#0
+09-08 15:04:25.467   517   517 D SurfaceFlinger:      CLIENT | 0xf68e3280 | 0100 | RGBA_8888    |  560.0  394.0  676.0  510.0 |  560  476  676  592 | Splash Screen com.chitranjan.studentid#0
+09-08 15:04:25.467   517   517 D SurfaceFlinger:      CLIENT | 0xf66d7fc0 | 0100 | RGBA_8888    |    0.0    0.0  720.0   48.0 |    0    0  720   48 | StatusBar#0
+09-08 15:04:25.467   517   517 D SurfaceFlinger:      CLIENT | 0xf66d7240 | 0100 | RGBA_8888    |    0.0    0.0  720.0   96.0 |    0 1504  720 1600 | NavigationBar0#0
+09-08 15:04:25.467   517   517 D SurfaceFlinger:
+09-08 15:04:25.493   835   897 V WindowManager: Setting visibility of Window{8f24b95 u0 Splash Screen com.chitranjan.studentid}: true, caller=com.android.server.wm.WindowContainer.sendAppVisibilityToClients:996 com.android.server.wm.ActivityRecord.setClientVisible:6188 com.android.server.wm.ActivityRecord.onAnimationFinished:7001 com.android.server.wm.WindowContainer.doAnimationFinished:2861 com.android.server.wm.WindowContainer.onAnimationFinished:2873
+09-08 15:04:25.506 16944 16944 V GraphicsEnvironment: ANGLE Developer option for 'com.chitranjan.studentid' set to: 'default'
+09-08 15:04:25.514   517   517 D SurfaceFlinger: Display 0 HWC layers:
+09-08 15:04:25.514   517   517 D SurfaceFlinger:      DEVICE | 0xf68e3280 | 0100 | RGBA_8888    |    0.0    0.0  720.0 1600.0 |    0    0  720 1600 | Splash Screen com.chitranjan.studentid#0
+09-08 15:04:25.514   517   517 D SurfaceFlinger:      DEVICE | 0xf66d7fc0 | 0100 | RGBA_8888    |    0.0    0.0  720.0   48.0 |    0    0  720   48 | StatusBar#0
+09-08 15:04:25.514   517   517 D SurfaceFlinger:      DEVICE | 0xf68e2980 | 0100 | RGBA_8888    |    0.0    0.0  720.0   96.0 |    0 1504  720 1600 | NavigationBar0#0
+09-08 15:04:25.514   517   517 D SurfaceFlinger:
+09-08 15:04:25.529 16944 16944 D ActivityThread: handleBindApplication data=AppBindData{appInfo=ApplicationInfo{bfd6a3d com.chitranjan.studentid}} appContext=android.app.ContextImpl@9730232 appContext.mOpPackageName=com.chitranjan.studentid appContext.mBasePackageName=com.chitranjan.studentid appContext.mPackageInfo=android.app.LoadedApk@54f5b83 data.restrictedBackupMode= false data.providers= 3
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.702 16944 16944 V SoLoader: libjscexecutor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.705 16944 16944 E SoLoader: couldn't find DSO to load: libjscexecutor.so
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 0: com.facebook.soloader.DirectorySoSource[root = /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm flags = 0]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 1: com.facebook.soloader.DirectApkSoSource[root = (/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a, /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a, /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a, /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a, /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a, )]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 2: com.facebook.soloader.DirectApkSoSource[root = (/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a, )]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 3: com.facebook.soloader.DirectApkSoSource[root = (/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a, )]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 4: com.facebook.soloader.DirectApkSoSource[root = (/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a, )]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 5: com.facebook.soloader.DirectApkSoSource[root = (/data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a, )]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 6: com.facebook.soloader.DirectorySoSource[root = /vendor/lib flags = 2]
+09-08 15:04:25.705 16944 16944 E SoLoader:      SoSource 7: com.facebook.soloader.DirectorySoSource[root = /system/lib flags = 2]
+09-08 15:04:25.705 16944 16944 E SoLoader:      Native lib dir: /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.705 16944 16944 E SoLoader:  result: 0
+09-08 15:04:25.706 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.706 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.706 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.707 16944 16944 V SoLoader: libhermes.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.711 16944 16944 V SoLoader: liblog.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.712 16944 16944 V SoLoader: libm.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.713 16944 16944 V SoLoader: libdl.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.714 16944 16944 V SoLoader: libc.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.723 16944 16944 D SoLoader: libhermes.so found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.724 16944 16944 V SoLoader: libhermes_executor.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.731 16944 16944 V SoLoader: libandroid.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.742 16944 16944 D SoLoader: libhermes_executor.so found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/lib/arm
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/base.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.xhdpi.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.hi.apk!/lib/armeabi-v7a
+09-08 15:04:25.834 16944 16971 V SoLoader: libfbjni.so not found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.en.apk!/lib/armeabi-v7a
+09-08 15:04:25.835   835  1987 D StorageManagerService: getExternalStorageMountMode: uid=10256 packageName=com.chitranjan.studentid
+09-08 15:04:25.840 16944 16971 D SoLoader: libfbjni.so found on /data/app/~~h9_9SU_oUyiIjsuHdQwOvw==/com.chitranjan.studentid-LkI9ODzcpNhUc5TTHE8iMw==/split_config.armeabi_v7a.apk!/lib/armeabi-v7a
+09-08 15:04:25.879   517  1813 I SurfaceFlinger: id=15281 createSurf (0x0),-1 flag=80004, 2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0
+09-08 15:04:25.887   835  6047 V WindowManager: Relayout Window{2e28d5f u0 com.chitranjan.studentid/com.chitranjan.studentid.MainActivity}: viewVisibility=0 req=720x1600 d0
+09-08 15:04:25.887   517  1813 I SurfaceFlinger: id=15282 createSurf (1x1),-3 flag=40004, com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0
+09-08 15:04:25.888   835  6047 D WindowManager: makeSurface duration=1 name=com.chitranjan.studentid/com.chitranjan.studentid.MainActivity
+09-08 15:04:25.907   517   517 I Layer   : FL_V_info: (BufferStateLayer)Name=com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0, Visible=0(Hiddenflag = 1, Alpha = 1.000000, [BufferInfo.mBuffer || mSidebandStream] = 0),Layer.flag=0x103
+09-08 15:04:25.921   517   517 I Layer   : FL_V_info: (BufferStateLayer)Name=2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity, Visible=0(Hiddenflag = 1, Alpha = 1.000000, [BufferInfo.mBuffer || mSidebandStream] = 0),Layer.flag=0x103
+09-08 15:04:25.943 16944 16971 E AndroidRuntime: FATAL EXCEPTION: create_react_context
+09-08 15:04:25.943 16944 16971 E AndroidRuntime: Process: com.chitranjan.studentid, PID: 16944
+09-08 15:04:25.943 16944 16971 E AndroidRuntime: java.lang.IllegalStateException: Native module RNCConfigModule tried to override RNCConfigModule. Check the getPackages() method in MainApplication.java, it might be that module is being created twice. If this was your intention, set canOverrideExistingModule=true. This error may also be present if the package is present only once in getPackages() but is also automatically added later during build time by autolinking. Try removing the existing entry and rebuild.
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.NativeModuleRegistryBuilder.processPackage(NativeModuleRegistryBuilder.java:55)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackage(ReactInstanceManager.java:1456)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.processPackages(ReactInstanceManager.java:1427)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.createReactContext(ReactInstanceManager.java:1338)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager.access$1200(ReactInstanceManager.java:135)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at com.facebook.react.ReactInstanceManager$5.run(ReactInstanceManager.java:1109)
+09-08 15:04:25.943 16944 16971 E AndroidRuntime:        at java.lang.Thread.run(Thread.java:920)
+09-08 15:04:25.948   835  1987 W ActivityTaskManager:   Force finishing activity com.chitranjan.studentid/.MainActivity
+09-08 15:04:25.955   517   517 I Layer   : FL_V_info: (BufferStateLayer)Name=2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity, Visible=0(Hiddenflag = 1, Alpha = 1.000000, [BufferInfo.mBuffer || mSidebandStream] = 0),Layer.flag=0x103
+09-08 15:04:25.970  1083  1229 D InsetsSourceConsumer: ensureControlAlpha: for ITYPE_NAVIGATION_BAR on Splash Screen com.chitranjan.studentid
+09-08 15:04:25.971  1083  1229 D InsetsSourceConsumer: ensureControlAlpha: for ITYPE_STATUS_BAR on Splash Screen com.chitranjan.studentid
+09-08 15:04:26.020   835  6413 I WindowManager: WIN DEATH: Window{2e28d5f u0 com.chitranjan.studentid/com.chitranjan.studentid.MainActivity}
+09-08 15:04:26.020   835  6924 I ActivityManager: Process com.chitranjan.studentid (pid 16944) has died: fg  TOP (90,717)
+09-08 15:04:26.020   835  6413 W InputManager-JNI: Input channel object '2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity (client)' was disposed without first being removed with the input manager!
+09-08 15:04:26.026   835  6924 I ActivityTaskManager: Removing activity ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity t299 f}}(appDied)  from stack callers=com.android.server.wm.ActivityRecord.handleAppDied:3718 com.android.server.wm.WindowProcessController.handleAppDied:1234 com.android.server.wm.ActivityTaskManagerService$LocalService.handleAppDied:5931 com.android.server.am.ActivityManagerService.handleAppDiedLocked:3090 com.android.server.am.ActivityManagerService.appDiedLocked:3209
+09-08 15:04:26.029   835  6924 E WindowManager: win=Window{8f24b95 u0 Splash Screen com.chitranjan.studentid EXITING} destroySurfaces: appStopped=false win.mWindowRemovalAllowed=true win.mRemoveOnExit=true win.mViewVisibility=0 caller=com.android.server.wm.ActivityRecord.destroySurfaces:5192 com.android.server.wm.ActivityRecord.destroySurfaces:5173 com.android.server.wm.WindowState.onExitAnimationDone:5106 com.android.server.wm.ActivityRecord$$ExternalSyntheticLambda12.accept:2 java.util.ArrayList.forEach:1262 com.android.server.wm.ActivityRecord.onAnimationFinished:7020 com.android.server.wm.ActivityRecord.postApplyAnimation:4922
+09-08 15:04:26.030   835  6924 W InputManager-JNI: Input channel object '8f24b95 Splash Screen com.chitranjan.studentid (client)' was disposed without first being removed with the input manager!
+09-08 15:04:26.037   517   517 I Layer   : id=15282 removedFromDrawingState com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0 (85)
+09-08 15:04:26.037   517   517 I Layer   : id=15281 removedFromDrawingState 2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0 (85)
+09-08 15:04:26.037   517   517 I Layer   : id=15276 removedFromDrawingState Splash Screen com.chitranjan.studentid#0 (85)
+09-08 15:04:26.037   517   517 I Layer   : id=15275 removedFromDrawingState 8f24b95 Splash Screen com.chitranjan.studentid#0 (85)
+09-08 15:04:26.037   517   517 I SurfaceFlinger: id=15281 Removed 2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0 (85)
+09-08 15:04:26.037   517   517 I SurfaceFlinger: id=15275 Removed 8f24b95 Splash Screen com.chitranjan.studentid#0 (85)
+09-08 15:04:26.038   517   517 I SurfaceFlinger: id=15282 Removed com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0 (85)
+09-08 15:04:26.038   517   517 I Layer   : id=15281 Destroyed 2e28d5f com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0
+09-08 15:04:26.038   517   517 I Layer   : id=15282 Destroyed com.chitranjan.studentid/com.chitranjan.studentid.MainActivity#0
+09-08 15:04:26.038   517   517 I Layer   : id=15275 Destroyed 8f24b95 Splash Screen com.chitranjan.studentid#0
+09-08 15:04:26.054   517   517 I Layer   : id=15274 removedFromDrawingState ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity#0 (82)
+09-08 15:04:26.054   517   517 I Layer   : id=15274 removedFromDrawingState ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity#0 (82)
+09-08 15:04:26.054   517   517 I SurfaceFlinger: id=15274 Removed ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity#0 (82)
+09-08 15:04:26.055   517   517 I Layer   : id=15274 Destroyed ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity#0
+09-08 15:04:26.096   517   545 I SurfaceFlinger: id=15276 Removed Splash Screen com.chitranjan.studentid#0 (82)
+09-08 15:04:26.104   517   517 I Layer   : id=15276 Destroyed Splash Screen com.chitranjan.studentid#0
+09-08 15:04:26.451   835   896 W ActivityTaskManager: Activity top resumed state loss timeout for ActivityRecord{5266823 u0 com.chitranjan.studentid/.MainActivity t-1 f}}
