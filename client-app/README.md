@@ -1,9 +1,9 @@
 # Build locally
-## On Github Codespace
+## On Gitpod Codespace
 ## Setup the environment
-1. On github codespace nodejs is installed using nvm (node version manager)
+1. On gitpod codespace nodejs is installed using nvm (node version manager)
     > Everything will work fine but to build the application we need superuser privilege.
-    > But on github codespace nodejs does not have sudo privilege
+    > But on gitpod codespace nodejs does not have sudo privilege
     > So we have to first uninstall nodejs, npm and nvm and reinstall using sudo privilege
 2. Run command `nvm ls` to get nodejs version installed 
 3. Deactivate the nodejs `nvm deactivate`
@@ -15,7 +15,7 @@
 8. `sudo npm install -g eas-cli`
 
 ## You may also need development tools to build native addons:
-     sudo apt-get install gcc g++ make build-essential
+     sudo apt-get install gcc g++ make cmake build-essential
 ## To install the Yarn package manager, run:
     `sudo curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/yarnkey.gpg >/dev/null`
     `echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
@@ -25,7 +25,7 @@
 1. `sudo eas login`
 2. `sudo npx expo prebuild` optional
 3. `sudo eas build:configure` optional
-4. `sudo eas build --platform android` for remotely `eas build --platform android --local` for locally
+4. `sudo eas build --platform android` for remotely `sudo eas build --platform android --local` for locally
 
 ## Installing the app
 1. Download the bundletool from https://developer.android.com/tools/bundletool

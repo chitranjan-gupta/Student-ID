@@ -14,6 +14,46 @@
 Fixing with https://www.npmjs.com/package/react-native-config
 
 
+ Configure project :app
+[RUN_GRADLEW]  ℹ️  Applying gradle plugin 'expo-dev-launcher-gradle-plugin' (expo-dev-launcher@2.4.10)
+[RUN_GRADLEW] FAILURE: Build completed with 2 failures.
+[RUN_GRADLEW] 1: Task failed with an exception.
+[RUN_GRADLEW] -----------
+[RUN_GRADLEW] * Where:
+[RUN_GRADLEW] Script '/tmp/root/eas-build-local-nodejs/6b2d766b-a14b-40f6-9f44-d5634cc32166/build/client-app/node_modules/expo-modules-autolinking/scripts/android/autolinking_implementation.gradle' line: 356
+[RUN_GRADLEW] * What went wrong:
+[RUN_GRADLEW] A problem occurred evaluating project ':expo'.
+[RUN_GRADLEW] > A problem occurred configuring project ':expo-modules-core'.
+[RUN_GRADLEW]    > Failed to notify project evaluation listener.
+[RUN_GRADLEW]       > Process 'command '/home/codespace/.local/bin/cmake'' finished with non-zero exit value 1
+[RUN_GRADLEW]       > Could not get unknown property 'release' for SoftwareComponentInternal set of type org.gradle.api.internal.component.DefaultSoftwareComponentContainer.
+[RUN_GRADLEW] * Try:
+[RUN_GRADLEW] > Run with --stacktrace option to get the stack trace.
+[RUN_GRADLEW] > Run with --info or --debug option to get more log output.
+[RUN_GRADLEW] > Run with --scan to get full insights.
+[RUN_GRADLEW] ==============================================================================
+[RUN_GRADLEW] 2: Task failed with an exception.
+[RUN_GRADLEW] -----------
+[RUN_GRADLEW] * What went wrong:
+[RUN_GRADLEW] A problem occurred configuring project ':expo'.
+[RUN_GRADLEW] > compileSdkVersion is not specified. Please add it to build.gradle
+[RUN_GRADLEW] * Try:
+[RUN_GRADLEW] > Run with --stacktrace option to get the stack trace.
+[RUN_GRADLEW] > Run with --info or --debug option to get more log output.
+[RUN_GRADLEW] > Run with --scan to get full insights.
+[RUN_GRADLEW] ==============================================================================
+[RUN_GRADLEW] * Get more help at https://help.gradle.org
+[RUN_GRADLEW] BUILD FAILED in 27s
+[RUN_GRADLEW] 10 actionable tasks: 10 executed
+[RUN_GRADLEW] Error: Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.
+
+Build failed
+Gradle build failed with unknown error. See logs for the "Run gradlew" phase for more information.
+npx exited with non-zero code: 1
+    Error: build command failed.
+
+
+
 E:\Ref\bundle-test>java -jar bundletool.jar install-apks --apks=test.apks
 The APKs have been extracted in the directory: C:\Users\CHITRA~1\AppData\Local\Temp\5850628768553071265
 
