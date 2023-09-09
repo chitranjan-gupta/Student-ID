@@ -9,7 +9,7 @@ import { anoncreds } from '@hyperledger/anoncreds-react-native'
 import { AnonCredsModule, AnonCredsCredentialFormatService, AnonCredsProofFormatService } from '@aries-framework/anoncreds'
 import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 
-import { genesis } from "../bcovrin.js"
+import { genesis } from "./bcovrin.js"
 
 export const initializeClient = async () => {
     const config = {

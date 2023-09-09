@@ -39,4 +39,4 @@ bundletool.jar
 build-apks/
 build-*.aab
 
-temp.js
+#temp.js
