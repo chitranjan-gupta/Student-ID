@@ -25,7 +25,7 @@ jobs:
       run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     - name: Build the Docker image
-      run: docker build . --platform=linux/amd64 --file Dockerfile --tag chitranjangupta/student:$IMAGE_VERSION
+      run: docker build --platform=linux/amd64 --file Dockerfile --tag $DOCKER_USERNAME/student:$IMAGE_VERSION .
 
     - name: Push the Docker image to Docker Hub
-      run: docker push chitranjangupta/student:$IMAGE_VERSION
+      run: docker push $DOCKER_USERNAME/student:$IMAGE_VERSION
