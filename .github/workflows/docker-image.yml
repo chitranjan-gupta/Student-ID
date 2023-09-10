@@ -21,10 +21,11 @@ jobs:
       env: 
         DOCKER_USERNAME:  ${{secrets.DOCKER_USERNAME}}
         DOCKER_PASSWORD:  ${{secrets.DOCKER_PASSWORD}}
-      run: docker login -u $DOCKER_USERNAME -p DOCKER_PASSWORD
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
     - name: Build the Docker image
       run:  docker build . --platform=linux/amd64 --file Dockerfile --tag chitranjangupta/student:$(date +%s)
 
     - name: Docker push
       run:  docker push chitranjangupta/student
+
