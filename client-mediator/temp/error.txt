@@ -1,0 +1,199 @@
+
+/workspaces/Student-ID/client-mediator/node_modules/@aries-framework/core/build/utils/MessageValidator.js:20
+            throw new error_1.ClassValidationError('Failed to validate class.', {
+                  ^
+ClassValidationError: ConnectionInvitationMessage: Failed to validate class.
+An instance of ConnectionInvitationMessage has failed the validation:
+ - property type has failed the following constraints: type does not match the expected message type (only minor version may be lower) 
+
+An instance of ConnectionInvitationMessage has failed the validation:
+ - property did has failed the following constraints: did must be a string 
+
+An instance of ConnectionInvitationMessage has failed the validation:
+ - property recipientKeys has failed the following constraints: recipientKeys should not be empty, recipientKeys must be an array, each value in recipientKeys must be a string 
+
+An instance of ConnectionInvitationMessage has failed the validation:
+ - property serviceEndpoint has failed the following constraints: serviceEndpoint must be a string 
+
+    at MessageValidator.validateSync (/workspaces/Student-ID/client-mediator/node_modules/@aries-framework/core/build/utils/MessageValidator.js:20:19)
+    at JsonTransformer.fromJSON (/workspaces/Student-ID/client-mediator/node_modules/@aries-framework/core/build/utils/JsonTransformer.js:25:45)
+    at ConnectionInvitationMessage.fromUrl (/workspaces/Student-ID/client-mediator/node_modules/@aries-framework/core/build/modules/connections/messages/ConnectionInvitationMessage.js:80:66)
+    at file:///workspaces/Student-ID/client-mediator/index.js:88:54
+    at Layer.handle [as handle_request] (/workspaces/Student-ID/client-mediator/node_modules/express/lib/router/layer.js:95:5)
+    at next (/workspaces/Student-ID/client-mediator/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/workspaces/Student-ID/client-mediator/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/workspaces/Student-ID/client-mediator/node_modules/express/lib/router/layer.js:95:5)
+    at /workspaces/Student-ID/client-mediator/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/workspaces/Student-ID/client-mediator/node_modules/express/lib/router/index.js:346:12) {
+  validationErrors: [
+    ValidationError {
+      target: ConnectionInvitationMessage {
+        allowDidSovPrefix: true,
+        type: 'https://didcomm.org/out-of-band/1.1/invitation',
+        id: '031ca3eb-c97b-4597-91f9-dc7d07a91627',
+        label: 'Mediator',
+        accept: [ 'didcomm/aip1', 'didcomm/aip2;env=rfc19' ],
+        handshake_protocols: [
+          'https://didcomm.org/didexchange/1.0',
+          'https://didcomm.org/connections/1.0'
+        ],
+        services: [
+          {
+            id: '#inline-0',
+            serviceEndpoint: 'http://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          },
+          {
+            id: '#inline-1',
+            serviceEndpoint: 'ws://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          }
+        ],
+        thread: undefined,
+        l10n: undefined,
+        transport: undefined,
+        timing: undefined,
+        pleaseAck: undefined,
+        appendedAttachments: undefined,
+        service: undefined
+      },
+      value: 'https://didcomm.org/out-of-band/1.1/invitation',
+      property: 'type',
+      children: [],
+      constraints: {
+        isValidMessageType: 'type does not match the expected message type (only minor version may be lower)'
+      }
+    },
+    ValidationError {
+      target: ConnectionInvitationMessage {
+        allowDidSovPrefix: true,
+        type: 'https://didcomm.org/out-of-band/1.1/invitation',
+        id: '031ca3eb-c97b-4597-91f9-dc7d07a91627',
+        label: 'Mediator',
+        accept: [ 'didcomm/aip1', 'didcomm/aip2;env=rfc19' ],
+        handshake_protocols: [
+          'https://didcomm.org/didexchange/1.0',
+          'https://didcomm.org/connections/1.0'
+        ],
+        services: [
+          {
+            id: '#inline-0',
+            serviceEndpoint: 'http://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          },
+          {
+            id: '#inline-1',
+            serviceEndpoint: 'ws://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          }
+        ],
+        thread: undefined,
+        l10n: undefined,
+        transport: undefined,
+        timing: undefined,
+        pleaseAck: undefined,
+        appendedAttachments: undefined,
+        service: undefined
+      },
+      value: undefined,
+      property: 'did',
+      children: [],
+      constraints: { isString: 'did must be a string' }
+    },
+    ValidationError {
+      target: ConnectionInvitationMessage {
+        allowDidSovPrefix: true,
+        type: 'https://didcomm.org/out-of-band/1.1/invitation',
+        id: '031ca3eb-c97b-4597-91f9-dc7d07a91627',
+        label: 'Mediator',
+        accept: [ 'didcomm/aip1', 'didcomm/aip2;env=rfc19' ],
+        handshake_protocols: [
+          'https://didcomm.org/didexchange/1.0',
+          'https://didcomm.org/connections/1.0'
+        ],
+        services: [
+          {
+            id: '#inline-0',
+            serviceEndpoint: 'http://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          },
+          {
+            id: '#inline-1',
+            serviceEndpoint: 'ws://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          }
+        ],
+        thread: undefined,
+        l10n: undefined,
+        transport: undefined,
+        timing: undefined,
+        pleaseAck: undefined,
+        appendedAttachments: undefined,
+        service: undefined
+      },
+      value: undefined,
+      property: 'recipientKeys',
+      children: [],
+      constraints: {
+        arrayNotEmpty: 'recipientKeys should not be empty',
+        isArray: 'recipientKeys must be an array',
+        isString: 'each value in recipientKeys must be a string'
+      }
+    },
+    ValidationError {
+      target: ConnectionInvitationMessage {
+        allowDidSovPrefix: true,
+        type: 'https://didcomm.org/out-of-band/1.1/invitation',
+        id: '031ca3eb-c97b-4597-91f9-dc7d07a91627',
+        label: 'Mediator',
+        accept: [ 'didcomm/aip1', 'didcomm/aip2;env=rfc19' ],
+        handshake_protocols: [
+          'https://didcomm.org/didexchange/1.0',
+          'https://didcomm.org/connections/1.0'
+        ],
+        services: [
+          {
+            id: '#inline-0',
+            serviceEndpoint: 'http://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          },
+          {
+            id: '#inline-1',
+            serviceEndpoint: 'ws://localhost:3001',
+            type: 'did-communication',
+            recipientKeys: [Array],
+            routingKeys: []
+          }
+        ],
+        thread: undefined,
+        l10n: undefined,
+        transport: undefined,
+        timing: undefined,
+        pleaseAck: undefined,
+        appendedAttachments: undefined,
+        service: undefined
+      },
+      value: undefined,
+      property: 'serviceEndpoint',
+      children: [],
+      constraints: { isString: 'serviceEndpoint must be a string' }
+    }
+  ],
+  [cause]: undefined
+}
+
+Node.js v20.5.1

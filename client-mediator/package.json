@@ -1,0 +1,27 @@
+{
+  "name": "client-mediator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Chitranjan Gupta",
+  "license": "MIT",
+  "dependencies": {
+    "@aries-framework/core": "^0.4.1",
+    "@aries-framework/indy-sdk": "^0.4.1",
+    "@aries-framework/node": "^0.4.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "indy-sdk": "^1.16.0-dev-1655",
+    "ws": "^8.14.1"
+  },
+  "devDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^5.0.10"
+  }
+}

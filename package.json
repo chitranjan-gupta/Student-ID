@@ -2,11 +2,14 @@
   "name": "student-id",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/chitranjan-gupta/Student-ID",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chitranjan-gupta/Student-ID.git"
+  },
   "author": "Chitranjan Gupta",
   "license": "MIT",
   "type": "module",
-  "private": false,
+  "private": true,
   "scripts": {
     "start": "node index.js"
   },
@@ -25,5 +28,11 @@
   },
   "overrides": {
     "ref-napi": "npm:@2060.io/ref-napi"
-  }
+  },
+  "description": "Student",
+  "bugs": {
+    "url": "https://github.com/chitranjan-gupta/Student-ID/issues"
+  },
+  "homepage": "https://github.com/chitranjan-gupta/Student-ID#readme",
+  "devDependencies": {}
 }

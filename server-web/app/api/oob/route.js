@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-  const res = await fetch("http://localhost:5000/oobs/create-invitation", {
+  const res = await fetch("https://studentid.onrender.com/oobs/create-invitation", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json',

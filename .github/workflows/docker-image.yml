@@ -26,11 +26,13 @@ jobs:
     - name: Build the Docker image
       env:
         DOCKER_USERNAME:  ${{secrets.DOCKER_USERNAME}}
+        DOCKER_REPOSITORY:  ${{secrets.DOCKER_REPOSITORY}}
         IMAGE_VERSION: ${{secrets.IMAGE_VERSION}}
-      run: docker build --platform=linux/amd64 --file Dockerfile --tag $DOCKER_USERNAME/student:$IMAGE_VERSION .
+      run: docker build --platform=linux/amd64 --file Dockerfile --tag $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_VERSION .
 
     - name: Push the Docker image to Docker Hub
       env:
         DOCKER_USERNAME:  ${{secrets.DOCKER_USERNAME}}
+        DOCKER_REPOSITORY:  ${{secrets.DOCKER_REPOSITORY}}
         IMAGE_VERSION: ${{secrets.IMAGE_VERSION}}
-      run: docker push $DOCKER_USERNAME/student:$IMAGE_VERSION
+      run: docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY:$IMAGE_VERSION

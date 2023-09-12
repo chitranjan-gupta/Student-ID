@@ -71,3 +71,13 @@ Error: Error creating schema: unknownError: IndyError(WalletItemNotFound): Walle
     at async file:///workspaces/Student-ID/routes/schema.js:14:26
 
 Node.js v20.5.1
+
+/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:289
+        throw new error_1.MessageSendingError(`Message is undeliverable to connection ${connection.id} (${connection.theirLabel})`, { outboundMessageContext });
+              ^
+MessageSendingError: Message is undeliverable to connection 74a39b95-c5c2-4147-856a-b9f3300408d3 (Student)
+    at MessageSender.sendMessage (/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:289:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ConnectionsApi.acceptRequest (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/connections/ConnectionsApi.js:115:9)
+    at async acceptConnection (file:///workspaces/Student-ID/utils/request.js:2:30)
+    at async EventEmitter.<anonymous> (file:///workspaces/Student-ID/index.js:134:42)
