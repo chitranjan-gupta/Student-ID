@@ -15,7 +15,11 @@ import {
     ProofsModule,
     V2ProofProtocol,
     ProofEventTypes,
-    ProofState
+    ProofState,
+    KeyDidRegistrar,
+    KeyDidResolver,
+    PeerDidResolver,
+    PeerDidRegistrar
 } from '@aries-framework/core'
 import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -76,8 +80,8 @@ const getAgent = async () => {
                 registries: [new IndySdkAnonCredsRegistry()],
             }),
             dids: new DidsModule({
-                registrars: [new IndySdkIndyDidRegistrar()],
-                resolvers: [new IndySdkIndyDidResolver()],
+                registrars: [new IndySdkIndyDidRegistrar(), new PeerDidRegistrar(), new KeyDidRegistrar()],
+                resolvers: [new IndySdkIndyDidResolver(), new PeerDidResolver(), new KeyDidResolver()],
             }),
             credentials: new CredentialsModule({
                 credentialProtocols: [
@@ -109,7 +113,7 @@ const getAgent = async () => {
 const run = async () => {
     const steward = await getAgent();
     await steward.dids.import({
-        did:indyDid,
+        did: indyDid,
         overwrite: true,
         privateKeys: [
             {
@@ -127,7 +131,7 @@ const run = async () => {
             case DidExchangeState.ResponseReceived: {
                 const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
                 console.log("Connection Responded")
-                console.log(connectionRecord)
+                //console.log(connectionRecord)
                 break
             }
             case DidExchangeState.RequestReceived: {
@@ -172,7 +176,7 @@ const run = async () => {
     })
     steward.events.on(ProofEventTypes.ProofStateChanged, async ({ payload }) => {
         switch (payload.proofRecord.state) {
-            case ProofState.PresentationReceived:{
+            case ProofState.PresentationReceived: {
                 console.log("Presentation Received")
                 console.log(payload)
                 break;
@@ -206,6 +210,9 @@ const run = async () => {
         req.steward = steward;
         next();
     })
+    app.get("/ping", (req, res) => {
+        res.send("pong");
+    });
     app.use("/oobs", oobs);
     app.use("/credential", credential);
     app.use("/schema", schema);

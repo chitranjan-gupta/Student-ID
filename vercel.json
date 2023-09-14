@@ -1,3 +1,7 @@
 {
-  "buildCommand": "cd ../client && npm install && npm run build"
+  "installCommand": "cd ./server-web && npm install",
+  "buildCommand": "cd ./server-web && npm install && npm run build",
+  "outputDirectory": "./server-web/.next",
+  "cleanUrls": true,
+  "framework": "nextjs"
 }

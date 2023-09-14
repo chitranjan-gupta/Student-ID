@@ -81,3 +81,160 @@ MessageSendingError: Message is undeliverable to connection 74a39b95-c5c2-4147-8
     at async ConnectionsApi.acceptRequest (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/connections/ConnectionsApi.js:115:9)
     at async acceptConnection (file:///workspaces/Student-ID/utils/request.js:2:30)
     at async EventEmitter.<anonymous> (file:///workspaces/Student-ID/index.js:134:42)
+
+
+
+/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:192
+            throw new error_1.MessageSendingError(`Unable to retrieve services for connection '${connection.id}`, {
+                  ^
+MessageSendingError: Unable to retrieve services for connection 'eb234a2b-9dff-4c8b-ab6f-8c13b5a61d3f
+    at MessageSender.sendMessage (/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:192:19)
+    at async ConnectionsApi.acceptRequest (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/connections/ConnectionsApi.js:115:9)
+    at async acceptConnection (file:///workspaces/Student-ID/utils/request.js:2:30)
+    at async EventEmitter.<anonymous> (file:///workspaces/Student-ID/index.js:134:42) {
+  outboundMessageContext: OutboundMessageContext {
+    message: DidExchangeResponseMessage {
+      allowDidSovPrefix: false,
+      type: 'https://didcomm.org/didexchange/1.0/response',
+      id: 'c23fc593-bb29-4a85-a65a-79a222eccd68',
+      did: 'did:peer:1zQmcBVUJf1HTk2jK69kT4QBHh9yLaTxxoK89wjiboBm9pgX',
+      thread: ThreadDecorator {
+        threadId: '700feec2-c863-492c-981a-0805b7f458f2',
+        parentThreadId: undefined,
+        senderOrder: undefined,
+        receivedOrders: undefined
+      },
+      didDoc: Attachment {
+        id: '20c48a64-d6a7-478e-b4ec-fdfcb4d64115',
+        description: undefined,
+        filename: undefined,
+        mimeType: 'application/json',
+        lastmodTime: undefined,
+        byteCount: undefined,
+        data: AttachmentData {
+          base64: 'eyJAY29udGV4dCI6WyJodHRwczovL3czaWQub3JnL2RpZC92MSJdLCJpZCI6ImRpZDpwZWVyOjF6UW1jQlZVSmYxSFRrMmpLNjlrVDRRQkhoOXlMYVR4eG9LODl3amlib0JtOXBnWCIsInNlcnZpY2UiOlt7ImlkIjoiI2lubGluZS0wIiwic2VydmljZUVuZHBvaW50IjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicHJpb3JpdHkiOjAsInJlY2lwaWVudEtleXMiOlsiI2MyZTVjYzFjLTQzZTctNGFjMC05MTQ5LTMzYmExYzVmZjA2ZSJdLCJyb3V0aW5nS2V5cyI6W119XSwiYXV0aGVudGljYXRpb24iOlt7ImlkIjoiI2MyZTVjYzFjLTQzZTctNGFjMC05MTQ5LTMzYmExYzVmZjA2ZSIsInR5cGUiOiJFZDI1NTE5VmVyaWZpY2F0aW9uS2V5MjAxOCIsImNvbnRyb2xsZXIiOiIjaWQiLCJwdWJsaWNLZXlCYXNlNTgiOiI4RTgyZDI1Ylc5UEdWalVnblA1NmVqeWJDcjdZTnpRWmZNWkpmblVjSlpTVSJ9XSwia2V5QWdyZWVtZW50IjpbeyJpZCI6IiM4N2QwYTQwZC0zNWJkLTQ2YzUtYjY2NC1iODMzNmVkMmVkNjIiLCJ0eXBlIjoiWDI1NTE5S2V5QWdyZWVtZW50S2V5MjAxOSIsImNvbnRyb2xsZXIiOiIjaWQiLCJwdWJsaWNLZXlCYXNlNTgiOiJHdU1Xc1BSamdCZTFDZUhTODNYdnhqRU5YR3F3TVNQWG5zRkdRRTR4aHcyUiJ9XX0=',
+          json: undefined,
+          links: undefined,
+          jws: {
+            protected: 'eyJhbGciOiJFZERTQSIsImp3ayI6eyJrdHkiOiJPS1AiLCJjcnYiOiJFZDI1NTE5IiwieCI6ImExNU9OeWVpTEduRDBBamNBaEpXVDU2cjhvNzYwbk02WElHZ3hXaGtjVDAifX0',
+            signature: 'T3RCYKPBo_1hS_abNEk-WRP5tDZ7akrZfNP0Q8BXr1Vowqyvwr4Fy8vNyEHgbHoRS1aRuUd_PdgLZIErm_s6Ag',
+            header: [Object]
+          },
+          sha256: undefined
+        }
+      }
+    },
+    connection: ConnectionRecord {
+      _tags: {
+        outOfBandId: '14692c7c-22be-4345-8db8-71804a88235e',
+        role: 'responder',
+        state: 'request-received',
+        theirDid: 'did:peer:1zQmZk1A5o9K4NCZUZdaynq7DmHtKhEM3WfjZt2p7VUF97xN',
+        threadId: '700feec2-c863-492c-981a-0805b7f458f2'
+      },
+      type: 'ConnectionRecord',
+      metadata: Metadata { data: {} },
+      connectionTypes: [],
+      id: 'eb234a2b-9dff-4c8b-ab6f-8c13b5a61d3f',
+      createdAt: 2023-09-14T08:30:49.080Z,
+      theirDid: 'did:peer:1zQmZk1A5o9K4NCZUZdaynq7DmHtKhEM3WfjZt2p7VUF97xN',
+      theirLabel: 'Student',
+      state: 'response-sent',
+      role: 'responder',
+      autoAcceptConnection: false,
+      threadId: '700feec2-c863-492c-981a-0805b7f458f2',
+      protocol: 'https://didcomm.org/didexchange/1.0',
+      outOfBandId: '14692c7c-22be-4345-8db8-71804a88235e',
+      updatedAt: 2023-09-14T08:30:49.174Z,
+      did: 'did:peer:1zQmcBVUJf1HTk2jK69kT4QBHh9yLaTxxoK89wjiboBm9pgX'
+    },
+    sessionId: undefined,
+    outOfBand: undefined,
+    serviceParams: undefined,
+    associatedRecord: undefined,
+    inboundMessageContext: undefined,
+    agentContext: AgentContext {
+      dependencyManager: DependencyManager {
+        container: InternalDependencyContainer {
+          parent: InternalDependencyContainer {
+            parent: undefined,
+            _registry: [Registry],
+            interceptors: [Interceptors],
+            disposed: false,
+            disposables: Set(0) {}
+          },
+          _registry: Registry { _registryMap: [Map] },
+          interceptors: Interceptors {
+            preResolution: [PreResolutionInterceptors],
+            postResolution: [PostResolutionInterceptors]
+          },
+          disposed: false,
+          disposables: Set(1) { [IndySdkWallet] }
+        },
+        registeredModules: {
+          indySdk: IndySdkModule { config: [IndySdkModuleConfig] },
+          anoncredsRs: AnonCredsRsModule { config: [AnonCredsRsModuleConfig] },
+          anoncreds: AnonCredsModule {
+            api: [class AnonCredsApi],
+            updates: [Array],
+            config: [AnonCredsModuleConfig]
+          },
+          dids: DidsModule {
+            api: [class DidsApi],
+            config: [DidsModuleConfig]
+          },
+          credentials: CredentialsModule {
+            api: [class CredentialsApi],
+            config: [CredentialsModuleConfig]
+          },
+          proofs: ProofsModule {
+            api: [class ProofsApi],
+            config: [ProofsModuleConfig]
+          },
+          connections: ConnectionsModule {
+            api: [class ConnectionsApi],
+            config: [ConnectionsModuleConfig]
+          },
+          mediator: MediatorModule {
+            api: [class MediatorApi],
+            config: [MediatorModuleConfig]
+          },
+          mediationRecipient: MediationRecipientModule {
+            api: [class MediationRecipientApi],
+            config: [MediationRecipientModuleConfig]
+          },
+          messagePickup: MessagePickupModule {
+            api: [class MessagePickupApi],
+            config: [MessagePickupModuleConfig]
+          },
+          basicMessages: BasicMessagesModule { api: [class BasicMessagesApi] },
+          genericRecords: GenericRecordsModule { api: [class GenericRecordsApi] },
+          discovery: DiscoverFeaturesModule {
+            api: [class DiscoverFeaturesApi],
+            config: [DiscoverFeaturesModuleConfig]
+          },
+          wallet: WalletModule { api: [class WalletApi] },
+          oob: OutOfBandModule { api: [class OutOfBandApi] },
+          w3cCredentials: W3cCredentialsModule {
+            api: [class W3cCredentialsApi],
+            config: [W3cCredentialsModuleConfig]
+          },
+          cache: CacheModule { config: [CacheModuleConfig] }
+        }
+      },
+      contextCorrelationId: 'default'
+    }
+  },
+  [cause]: AriesFrameworkError: Unable to resolve did document for did 'did:key:z6Mkm7uqzyvJVUSkDe7v86RRziQBSua7P7KvN7JSD5gryhEq#z6Mkm7uqzyvJVUSkDe7v86RRziQBSua7P7KvN7JSD5gryhEq': unsupportedDidMethod No did resolver registered for did method key
+      at DidResolverService.resolveDidDocument (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/dids/services/DidResolverService.js:52:19)
+      at async DidCommDocumentService.resolveServicesFromDid (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/didcomm/services/DidCommDocumentService.js:45:48)
+      at async MessageSender.retrieveServicesByConnection (/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:392:31)
+      at async MessageSender.sendMessage (/workspaces/Student-ID/node_modules/@aries-framework/core/build/agent/MessageSender.js:187:43)
+      at async ConnectionsApi.acceptRequest (/workspaces/Student-ID/node_modules/@aries-framework/core/build/modules/connections/ConnectionsApi.js:115:9)
+      at async acceptConnection (file:///workspaces/Student-ID/utils/request.js:2:30)
+      at async EventEmitter.<anonymous> (file:///workspaces/Student-ID/index.js:134:42) {
+    [cause]: undefined
+  }
+}
+
+Node.js v20.5.1

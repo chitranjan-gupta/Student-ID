@@ -11,7 +11,8 @@ import {
     CredentialEventTypes,
     CredentialState,
     AutoAcceptCredential,
-    BasicMessageEventTypes
+    BasicMessageEventTypes,
+    MediationRecipientModule
 } from '@aries-framework/core'
 import { agentDependencies } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -21,7 +22,7 @@ import { AnonCredsModule, LegacyIndyCredentialFormatService, AnonCredsCredential
 import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 
 // paste your invitation url here
-const mediatorInvitationUrl = ""
+const mediatorInvitationUrl = "http://localhost:3001/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJlMjg0MDg0MC0zNDI4LTRiZGQtYTQ0NS1lNTU4YmNmNzMzMDAiLCJsYWJlbCI6Ik1lZGlhdG9yIiwiYWNjZXB0IjpbImRpZGNvbW0vYWlwMSIsImRpZGNvbW0vYWlwMjtlbnY9cmZjMTkiXSwiaGFuZHNoYWtlX3Byb3RvY29scyI6WyJodHRwczovL2RpZGNvbW0ub3JnL2RpZGV4Y2hhbmdlLzEuMCIsImh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wIl0sInNlcnZpY2VzIjpbeyJpZCI6IiNpbmxpbmUtMCIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1razJ0M2dzWDdCejRZNjNnVzVieUgyaWg1eDNkdTVuZ29LaWNMaEJtb2tHSkEiXSwicm91dGluZ0tleXMiOltdfSx7ImlkIjoiI2lubGluZS0xIiwic2VydmljZUVuZHBvaW50Ijoid3M6Ly9sb2NhbGhvc3Q6MzAwMSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1razJ0M2dzWDdCejRZNjNnVzVieUgyaWg1eDNkdTVuZ29LaWNMaEJtb2tHSkEiXSwicm91dGluZ0tleXMiOltdfV19"
 
 const agentConfig = {
     label: "Alice",

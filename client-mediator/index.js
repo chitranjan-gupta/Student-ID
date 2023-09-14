@@ -28,7 +28,7 @@ import indySdk from 'indy-sdk'
 import { IndySdkModule } from '@aries-framework/indy-sdk'
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3001
-const endpoints = process.env.AGENT_ENDPOINTS?.split(',') ?? [`http://localhost:${port}`, `ws://localhost:${port}`]
+const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`]
 
 const agentConfig = {
   label: process.env.AGENT_LABEL || 'Mediator',
