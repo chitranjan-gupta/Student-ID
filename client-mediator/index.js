@@ -29,12 +29,12 @@ import { IndySdkModule } from '@aries-framework/indy-sdk'
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3001
 const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`]
-
+const frontpoint = process.env.URL ? process.env.URL : "http://0.0.0.0:3001"
 const agentConfig = {
-  label: process.env.AGENT_LABEL || 'Mediator',
+  label: process.env.AGENT_LABEL || 'Client Mediator',
   walletConfig: {
-    id: process.env.WALLET_NAME || 'mediator',
-    key: process.env.WALLET_KEY || 'mediator',
+    id: process.env.WALLET_NAME || 'clientmediator',
+    key: process.env.WALLET_KEY || 'clientmediator',
   },
   endpoints,
 }
@@ -89,8 +89,7 @@ const run = async () => {
       res.json(invitation.toJSON())
     } else {
       const { outOfBandInvitation } = await agent.oob.createInvitation({ multiUseInvitation: true })
-      const httpEndpoint = agent.config.endpoints.find((e) => e.startsWith('http'))
-      res.json({"invitationUrl":outOfBandInvitation.toUrl({ domain: httpEndpoint + '/invitation' })})
+      res.json({ "invitationUrl": outOfBandInvitation.toUrl({ domain: frontpoint + '/invitation' }) })
     }
   })
 
