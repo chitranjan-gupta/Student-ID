@@ -24,8 +24,9 @@ router.post("/request-outofband-proof", async (req,res) => {
 })
 
 router.post("/request-proof", async (req,res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    await reqProof(req.steward, json.connectionId)
+    await reqProof(agent, json.connectionId)
     res.json({});
 })
 

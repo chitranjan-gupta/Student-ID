@@ -12,7 +12,8 @@ router.get("/:outOfBandId", async (req, res) => {
 })
 
 router.post("/create-invitation", async (req, res) => {
-    const { invitationUrl, outOfBandRecord } = await createNewInvitation(req.steward);
+    const agent = req.container.get("agent");
+    const { invitationUrl, outOfBandRecord } = await createNewInvitation(agent);
     res.json({ invitationUrl: invitationUrl, outOfBandRecord: outOfBandRecord });
 })
 
@@ -29,13 +30,15 @@ router.post("/receive-invitation", async (req, res) => {
 })
 
 router.post("/receive-invitation-url", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const outOfBandRecord = await receiveInvitation(req.steward, json.invitationUrl);
+    const outOfBandRecord = await receiveInvitation(agent, json.invitationUrl);
     res.json({ outOfBandRecord });
 })
 
 router.post("/:outOfBandId/accept-invitation", async (req, res) => {
-    const { outOfBandRecord, connectionRecord } = acceptInvitation(req.steward, req.params.outOfBandId);
+    const agent = req.container.get("agent");
+    const { outOfBandRecord, connectionRecord } = acceptInvitation(agent, req.params.outOfBandId);
     res.json({ outOfBandRecord, connectionRecord })
 })
 

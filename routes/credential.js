@@ -1,11 +1,10 @@
 import { Router } from "express"
-import { offerCred, propCred, pullLinkSecret } from "../utils/cred.js";
+import { offerCred, propCred } from "../utils/cred.js";
 
 const router = Router()
 
 router.get("/", async (req, res) => {
-    const ids = await pullLinkSecret(req.steward)
-    res.send({ ids });
+    res.send("");
 })
 
 router.get("/:credentialRecordId", async (req, res) => {
@@ -13,8 +12,9 @@ router.get("/:credentialRecordId", async (req, res) => {
 })
 
 router.post("/propose-credential", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const anonCredsCredentialExchangeRecord = await propCred(req.steward, json.connectionId, json.credentialDefinitionId)
+    const anonCredsCredentialExchangeRecord = await propCred(agent, json.connectionId, json.credentialDefinitionId)
     res.json({ anonCredsCredentialExchangeRecord });
 })
 
@@ -27,8 +27,9 @@ router.post("/create-offer", async (req, res) => {
 })
 
 router.post("/offer-credential", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const anonCredsCredentialExchangeRecord = await offerCred(req.steward, json.connectionId, json.credentialDefinitionId, json.first_name, json.last_name)
+    const anonCredsCredentialExchangeRecord = await offerCred(agent, json.connectionId, json.credentialDefinitionId, json.first_name, json.last_name)
     res.json({ anonCredsCredentialExchangeRecord });
 })
 

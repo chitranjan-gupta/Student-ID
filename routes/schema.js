@@ -4,14 +4,16 @@ import { pullSchema, pushSchema } from "../utils/cred.js";
 const router = Router()
 
 router.get("/", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const schemaResult = await pullSchema(req.steward, json.schemaId)
+    const schemaResult = await pullSchema(agent, json.schemaId)
     res.json({ schemaResult });
 })
 
 router.post("/", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const schemaResult = await pushSchema(req.steward, json.did, json.schema)
+    const schemaResult = await pushSchema(agent, json.did, json.schema)
     res.json({ schemaResult });
 })
 

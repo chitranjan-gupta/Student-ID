@@ -1,6 +1,6 @@
 import {
     Agent, DidsModule, CredentialsModule, ProofsModule, V2CredentialProtocol, V2ProofProtocol, WsOutboundTransport,
-    HttpOutboundTransport
+    HttpOutboundTransport, MediationRecipientModule, PeerDidResolver, PeerDidRegistrar, KeyDidResolver, KeyDidRegistrar
 } from '@aries-framework/core'
 import { agentDependencies } from '@aries-framework/react-native'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
@@ -12,8 +12,9 @@ import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 import { genesis } from "./bcovrin.js"
 
 export const initializeClient = async () => {
+    const mediatorInvitationUrl = ""
     const config = {
-        label: 'client-react-native',
+        label: 'client-app',
         walletConfig: {
             id: 'wallet-id',
             key: 'testkey0000000000000000000000000',
@@ -22,6 +23,9 @@ export const initializeClient = async () => {
     const agent = new Agent({
         config,
         modules: {
+            mediationRecipient: new MediationRecipientModule({
+                mediatorInvitationUrl
+            }),
             indySdk: new IndySdkModule({
                 indySdk,
                 networks: [
@@ -41,8 +45,8 @@ export const initializeClient = async () => {
                 registries: [new IndySdkAnonCredsRegistry()],
             }),
             dids: new DidsModule({
-                registrars: [new IndySdkIndyDidRegistrar()],
-                resolvers: [new IndySdkIndyDidResolver()],
+                registrars: [new IndySdkIndyDidRegistrar(), new PeerDidRegistrar(), new KeyDidRegistrar()],
+                resolvers: [new IndySdkIndyDidResolver(), new PeerDidResolver(), new KeyDidResolver()],
             }),
             credentials: new CredentialsModule({
                 credentialProtocols: [
@@ -66,4 +70,4 @@ export const initializeClient = async () => {
 
     await agent.initialize()
     return agent
-}  
+}

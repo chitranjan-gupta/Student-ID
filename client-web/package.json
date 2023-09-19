@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aries-framework/anoncreds": "^0.4.1",
+    "@aries-framework/anoncreds-rs": "^0.4.1",
+    "@aries-framework/core": "^0.4.1",
+    "@aries-framework/react-hooks": "^0.5.0",
     "autoprefixer": "10.4.15",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "event-emitter": "^0.3.5",
     "next": "13.4.19",
     "postcss": "8.4.29",
     "react": "18.2.0",

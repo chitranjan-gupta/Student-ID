@@ -6,6 +6,10 @@ client-app/
 
 client-web/
 
+client-mediator/
+
+server-web/
+
 temp/
 
 .github/

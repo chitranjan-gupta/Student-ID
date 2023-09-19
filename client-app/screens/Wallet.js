@@ -1,5 +1,8 @@
+import React, { useEffect } from "react"
 import { StyleSheet, Button, View } from "react-native";
-import { initializeClient } from "../lib/agent";
+import { useNavigation } from '@react-navigation/native';
+
+import { useAries } from "../lib/aries"
 
 const styles = StyleSheet.create({
     container: {
@@ -10,16 +13,17 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function Wallet(){
-    async function get(){
-        try{
-            const steward = await initializeClient();
-            
-        }catch(err){
-            console.error(err)
+export default function Wallet() {
+    const navigation = useNavigation();
+    const { initializeAgent } = useAries();
+    useEffect(() => {
+        async function call(){
+            await initializeAgent()
+            console.log("initialized agent");
         }
-    }
+        call()
+    },[])
     return <View style={styles.container}>
-        <Button title={"Connect"} onPress={get}/>
+        <Button title='Scan' onPress={() => navigation.navigate("Scanner")} />
     </View>
 }

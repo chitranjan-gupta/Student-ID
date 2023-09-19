@@ -1,9 +1,8 @@
 export const createNewInvitation = async (agent) => {
-    const frontpoint = process.env.URL ? process.env.URL : `http://0.0.0.0:5000`
     const outOfBandRecord = await agent.oob.createInvitation()
 
     return {
-        invitationUrl: outOfBandRecord.outOfBandInvitation.toUrl({ domain: frontpoint }),
+        invitationUrl: outOfBandRecord.outOfBandInvitation.toUrl({ domain: 'http://localhost:5001' }),
         outOfBandRecord,
     }
 }

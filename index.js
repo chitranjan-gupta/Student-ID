@@ -1,36 +1,20 @@
 import {
-    Agent,
-    ConnectionEventTypes,
-    WsOutboundTransport,
-    HttpOutboundTransport,
-    DidExchangeState,
-    DidsModule,
-    TypedArrayEncoder,
-    CredentialsModule,
-    V2CredentialProtocol,
-    BasicMessageEventTypes,
-    CredentialEventTypes,
-    CredentialState,
-    KeyType,
-    ProofsModule,
-    V2ProofProtocol,
-    ProofEventTypes,
-    ProofState,
-    KeyDidRegistrar,
-    KeyDidResolver,
-    PeerDidResolver,
-    PeerDidRegistrar
+    Agent, ConnectionEventTypes, WsOutboundTransport, HttpOutboundTransport, DidExchangeState, DidsModule,
+    TypedArrayEncoder, CredentialsModule, V2CredentialProtocol, BasicMessageEventTypes, CredentialEventTypes,
+    CredentialState, KeyType, ProofsModule, V2ProofProtocol, ProofEventTypes, ProofState, KeyDidRegistrar,
+    KeyDidResolver, PeerDidResolver, PeerDidRegistrar
 } from '@aries-framework/core'
-import { agentDependencies, HttpInboundTransport } from '@aries-framework/node'
+import { agentDependencies, HttpInboundTransport, WsInboundTransport } from '@aries-framework/node'
 import { IndySdkModule, IndySdkAnonCredsRegistry, IndySdkIndyDidRegistrar, IndySdkIndyDidResolver } from '@aries-framework/indy-sdk'
 import indySdk from 'indy-sdk'
 import { anoncreds } from '@hyperledger/anoncreds-nodejs'
 import { AnonCredsModule, AnonCredsCredentialFormatService, AnonCredsProofFormatService } from '@aries-framework/anoncreds'
 import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
-import { startServer } from '@aries-framework/rest'
 import express from "express"
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import { WebSocketServer } from 'ws'
+
 import oobs from "./routes/oobs.js"
 import credential from "./routes/credential.js"
 import schema from "./routes/schema.js"
@@ -41,6 +25,7 @@ import message from "./routes/message.js"
 import proof from "./routes/proof.js"
 import { acceptConnection, acceptConnectionBack } from "./utils/request.js"
 import { send } from './utils/chat.js'
+import { pullLinkSecret, pushLinkSecret } from './utils/cred.js'
 
 import { genesis } from "./bcovrin.js"
 
@@ -48,16 +33,46 @@ const stewardseed = "0000000000000000000000000Roshan1"
 const seed = TypedArrayEncoder.fromString(stewardseed) // What you input on bcovrin. Should be kept secure in production!
 const unqualifiedIndyDid = `DxRyhqooU79KcCYpMDcPkP` // will be returned after registering seed on bcovrin
 const indyDid = `did:indy:bcovrin:test:${unqualifiedIndyDid}`//did:indy:bcovrin:test:DxRyhqooU79KcCYpMDcPkP
+const port = process.env.PORT ? Number(process.env.PORT) : 5000
+const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`]
+const defaultSecretId = "myLinkId"
+const config = {
+    label: 'College',
+    walletConfig: {
+        id: 'testcollege',
+        key: process.env.AGENT_WALLET_KEY || 'testcollege',
+    },
+    endpoints,
+}
 
-const getAgent = async () => {
-    const config = {
-        label: 'College',
-        walletConfig: {
-            id: 'testcollege',
-            key: process.env.AGENT_WALLET_KEY || 'testcollege',
-        },
-        endpoints: ["http://localhost:5001"],
-    }
+const getExpress = (container) => {
+    const app = express()
+    app.use(cors())
+    app.use(
+        bodyParser.urlencoded({
+            extended: true,
+        })
+    )
+    app.use(bodyParser.json())
+    app.get("/ping", (req, res) => {
+        res.send("pong");
+    });
+    app.use((req, res, next) => {
+        req.container = container;
+        next();
+    })
+    app.use("/oobs", oobs);
+    app.use("/credential", credential);
+    app.use("/schema", schema);
+    app.use("/credential-def", credentialDef);
+    app.use("/did", did);
+    app.use("/message", message);
+    app.use("/proof", proof);
+    app.use("/connection", connection);
+    return app
+}
+
+const getAgent = async (socketServer, app) => {
     const agent = new Agent({
         config,
         modules: {
@@ -100,19 +115,41 @@ const getAgent = async () => {
         },
         dependencies: agentDependencies
     })
-
-    agent.registerInboundTransport(new HttpInboundTransport({ port: 5001 }))
-
+    const httpInboundTransport = new HttpInboundTransport({ app, port })
+    agent.registerInboundTransport(httpInboundTransport)
+    agent.registerInboundTransport(new WsInboundTransport({ server: socketServer }))
     agent.registerOutboundTransport(new HttpOutboundTransport())
     agent.registerOutboundTransport(new WsOutboundTransport())
-
+    httpInboundTransport.server?.on('upgrade', (request, socket, head) => {
+        socketServer.handleUpgrade(request, socket, head, (ws) => {
+            socketServer.emit('connection', ws, request)
+        })
+    })
     await agent.initialize()
     return agent
 }
 
+class Container {
+    constructor() {
+        this.dependencies = {};
+    }
+    register(name, dependency) {
+        this.dependencies[name] = dependency;
+    }
+    get(name) {
+        if (!this.dependencies[name]) {
+            throw new Error(`Dependency ${name} is not registered`);
+        }
+        return this.dependencies[name]
+    }
+}
+
 const run = async () => {
-    const steward = await getAgent();
-    await steward.dids.import({
+    const container = new Container();
+    const socketServer = new WebSocketServer({ noServer: true })
+    const app = getExpress(container)
+    const agent = await getAgent(socketServer, app);
+    await agent.dids.import({
         did: indyDid,
         overwrite: true,
         privateKeys: [
@@ -122,32 +159,36 @@ const run = async () => {
             }
         ]
     })
-    await steward.modules.anoncreds.createLinkSecret({ setAsDefault: true })
-    steward.events.on(BasicMessageEventTypes.BasicMessageStateChanged, async ({ payload }) => {
+    const secretIds = await pullLinkSecret(agent)
+    if (!secretIds.includes(defaultSecretId)) {
+        await pushLinkSecret(agent, defaultSecretId)
+    }
+    container.register("agent", agent)
+    agent.events.on(BasicMessageEventTypes.BasicMessageStateChanged, async ({ payload }) => {
         console.log(payload.basicMessageRecord.content)
     })
-    steward.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
+    agent.events.on(ConnectionEventTypes.ConnectionStateChanged, async ({ payload }) => {
         switch (payload.connectionRecord.state) {
             case DidExchangeState.ResponseReceived: {
-                const connectionRecord = await acceptConnectionBack(steward, payload.connectionRecord.id);
+                const connectionRecord = await acceptConnectionBack(agent, payload.connectionRecord.id);
                 console.log("Connection Responded")
-                //console.log(connectionRecord)
+                console.log(connectionRecord)
                 break
             }
             case DidExchangeState.RequestReceived: {
-                const connectionRecord = await acceptConnection(steward, payload.connectionRecord.id);
+                const connectionRecord = await acceptConnection(agent, payload.connectionRecord.id);
                 console.log("Connection Requested")
                 console.log(connectionRecord)
                 break
             }
             case DidExchangeState.Completed: {
                 console.log(`Connection completed`)
-                await send(steward, payload.connectionRecord.id, "Hi Kya hal ba")
+                await send(agent, payload.connectionRecord.id, "Hi Kya hal ba")
                 break
             }
         }
     })
-    steward.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
+    agent.events.on(CredentialEventTypes.CredentialStateChanged, async ({ payload }) => {
         switch (payload.credentialRecord.state) {
             case CredentialState.ProposalReceived: {
                 console.log(`Received a credential proposal ${payload.credentialRecord.id}`)
@@ -155,17 +196,17 @@ const run = async () => {
             }
             case CredentialState.OfferReceived: {
                 console.log(`Received a credential offer ${payload.credentialRecord.id}`)
-                await steward.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
+                await agent.credentials.acceptOffer({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
             case CredentialState.RequestReceived: {
                 console.log(`Received a credential request ${payload.credentialRecord.id}`)
-                await steward.credentials.acceptRequest({ credentialRecordId: payload.credentialRecord.id })
+                await agent.credentials.acceptRequest({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
             case CredentialState.CredentialReceived: {
                 console.log(`Received a credential ${payload.credentialRecord.id}`)
-                await steward.credentials.acceptCredential({ credentialRecordId: payload.credentialRecord.id })
+                await agent.credentials.acceptCredential({ credentialRecordId: payload.credentialRecord.id })
                 break
             }
             case CredentialState.Done: {
@@ -174,7 +215,7 @@ const run = async () => {
             }
         }
     })
-    steward.events.on(ProofEventTypes.ProofStateChanged, async ({ payload }) => {
+    agent.events.on(ProofEventTypes.ProofStateChanged, async ({ payload }) => {
         switch (payload.proofRecord.state) {
             case ProofState.PresentationReceived: {
                 console.log("Presentation Received")
@@ -182,7 +223,7 @@ const run = async () => {
                 break;
             }
             case ProofState.Done: {
-                const formattedData = await steward.proofs.getFormatData(
+                const formattedData = await agent.proofs.getFormatData(
                     payload.proofRecord.id
                 )
                 const items = Object.entries(
@@ -197,34 +238,6 @@ const run = async () => {
                 break
             }
         }
-    })
-    const app = express()
-    app.use(cors())
-    app.use(
-        bodyParser.urlencoded({
-            extended: true,
-        })
-    )
-    app.use(bodyParser.json())
-    app.use((req, res, next) => {
-        req.steward = steward;
-        next();
-    })
-    app.get("/ping", (req, res) => {
-        res.send("pong");
-    });
-    app.use("/oobs", oobs);
-    app.use("/credential", credential);
-    app.use("/schema", schema);
-    app.use("/credential-def", credentialDef);
-    app.use("/did", did);
-    app.use("/message", message);
-    app.use("/proof", proof);
-    app.use("/connection", connection);
-    await startServer(steward, {
-        app: app,
-        port: 5000,
-        cors: true
     })
 }
 

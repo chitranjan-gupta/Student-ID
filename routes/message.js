@@ -8,8 +8,9 @@ router.get("/:connectionId", async (req, res) => {
 })
 
 router.post("/:connectionId", async (req, res) => {
+    const agent = req.container.get("agent");
     const json = req.body
-    const basicMessageRecord = await send(req.steward, req.params.connectionId, json.msg)
+    const basicMessageRecord = await send(agent, req.params.connectionId, json.msg)
     res.json({ basicMessageRecord });
 })
 
