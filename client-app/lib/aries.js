@@ -18,7 +18,7 @@ const useAries = () => {
 };
 
 const AriesProvider = ({ children }) => {
-    const [agent, setAgent] = useState()
+    const [agent, setAgent] = useState(undefined)
     const initializeAgent = useCallback(
         async () => {
             const ariesAgent = await initializeClient()

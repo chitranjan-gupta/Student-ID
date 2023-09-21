@@ -32,7 +32,11 @@ allprojects {
             // Android JSC is installed from npm
             url(new File(['node', '--print', "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), '../dist'))
         }
-
+        configurations.all {
+            resolutionStrategy {
+                force "com.facebook.soloader:soloader:0.10.5+"
+            }
+        }
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }

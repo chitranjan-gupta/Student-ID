@@ -41,7 +41,7 @@ import { send } from './utils/chat.js'
 
 import { genesis } from "./bcovrin.js"
 
-const mediatorInvitationUrl = "http://localhost:3001/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJmZmNlYmE4Yy1kY2E1LTRjNzItYmYwYy00YmE3NDZlYjUzZmIiLCJsYWJlbCI6Ik1lZGlhdG9yIiwiYWNjZXB0IjpbImRpZGNvbW0vYWlwMSIsImRpZGNvbW0vYWlwMjtlbnY9cmZjMTkiXSwiaGFuZHNoYWtlX3Byb3RvY29scyI6WyJodHRwczovL2RpZGNvbW0ub3JnL2RpZGV4Y2hhbmdlLzEuMCIsImh0dHBzOi8vZGlkY29tbS5vcmcvY29ubmVjdGlvbnMvMS4wIl0sInNlcnZpY2VzIjpbeyJpZCI6IiNpbmxpbmUtMCIsInNlcnZpY2VFbmRwb2ludCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rb3FGQVhLclBRRUdZN1BIUGpNNmR2YXJHYUxVSlNOYVVrWllFeGhVeXNac28iXSwicm91dGluZ0tleXMiOltdfSx7ImlkIjoiI2lubGluZS0xIiwic2VydmljZUVuZHBvaW50Ijoid3M6Ly9sb2NhbGhvc3Q6MzAwMSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rb3FGQVhLclBRRUdZN1BIUGpNNmR2YXJHYUxVSlNOYVVrWllFeGhVeXNac28iXSwicm91dGluZ0tleXMiOltdfV19"
+const mediatorInvitationUrl = "http://0.0.0.0:3001/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiIwZWRlN2E3ZC05N2UzLTQxZDAtOWQ1ZS04ZTBmNDM3NmNlNjkiLCJsYWJlbCI6IkNsaWVudCBNZWRpYXRvciIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2h5U3VDcFB2WkdYWXZ1NDdITGNNM1QyeW5FbVF3YnlpSHhodmdVYTRKMm1OIl0sInJvdXRpbmdLZXlzIjpbXX0seyJpZCI6IiNpbmxpbmUtMSIsInNlcnZpY2VFbmRwb2ludCI6IndzOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2h5U3VDcFB2WkdYWXZ1NDdITGNNM1QyeW5FbVF3YnlpSHhodmdVYTRKMm1OIl0sInJvdXRpbmdLZXlzIjpbXX1dfQ"
 
 const agentConfig = {
     label: 'Student',
@@ -49,7 +49,7 @@ const agentConfig = {
         id: 'teststudent',
         key: process.env.AGENT_WALLET_KEY || 'teststudent',
     },
-    //    endpoints: ["http://localhost:5002"],
+    endpoints: ["http://localhost:5002"],
 }
 
 const getAgent = async () => {
@@ -98,7 +98,7 @@ const getAgent = async () => {
         dependencies: agentDependencies
     })
 
-    //    agent.registerInboundTransport(new HttpInboundTransport({ port: 5002 }))
+    agent.registerInboundTransport(new HttpInboundTransport({ port: 5002 }))
 
     agent.registerOutboundTransport(new HttpOutboundTransport())
     agent.registerOutboundTransport(new WsOutboundTransport())

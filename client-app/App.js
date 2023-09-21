@@ -25,20 +25,14 @@ function WalletTabs() {
 
 const Stack = createStackNavigator();
 
-function App() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Wallet" component={WalletTabs} />
-    </Stack.Navigator>
-  );
-}
-
-export default () => {
+export default function App(){
   return (
     <AriesProvider>
       <NavigationContainer>
-        <App />
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Wallet" component={WalletTabs} />
+        </Stack.Navigator>
       </NavigationContainer>
     </AriesProvider>
   );

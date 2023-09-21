@@ -11,10 +11,10 @@
  * url that is returned by the '/invitation/ endpoint. This will connect
  * to the mediator, request mediation and set the mediator as default.
  */
-import express from 'express'
-import cors from 'cors'
-import bodyParser from 'body-parser'
-import { WebSocketServer } from 'ws'
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import { WebSocketServer } from "ws";
 import {
   ConnectionsModule,
   MediatorModule,
@@ -22,35 +22,39 @@ import {
   Agent,
   ConnectionInvitationMessage,
   WsOutboundTransport,
-} from '@aries-framework/core'
-import { HttpInboundTransport, agentDependencies, WsInboundTransport } from '@aries-framework/node'
-import indySdk from 'indy-sdk'
-import { IndySdkModule } from '@aries-framework/indy-sdk'
+} from "@aries-framework/core";
+import {
+  HttpInboundTransport,
+  agentDependencies,
+  WsInboundTransport,
+} from "@aries-framework/node";
+import indySdk from "indy-sdk";
+import { IndySdkModule } from "@aries-framework/indy-sdk";
 
-const port = process.env.PORT ? Number(process.env.PORT) : 3001
-const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`]
-const frontpoint = process.env.URL ? process.env.URL : "http://0.0.0.0:3001"
+const port = process.env.PORT ? Number(process.env.PORT) : 3001;
+const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`];
+const frontpoint = process.env.URL ? process.env.URL : "http://0.0.0.0:3001";
 const agentConfig = {
-  label: process.env.AGENT_LABEL || 'Client Mediator',
+  label: process.env.AGENT_LABEL || "Client Mediator",
   walletConfig: {
-    id: process.env.WALLET_NAME || 'clientmediator',
-    key: process.env.WALLET_KEY || 'clientmediator',
+    id: process.env.WALLET_NAME || "clientmediator",
+    key: process.env.WALLET_KEY || "clientmediator",
   },
   endpoints,
-}
+};
 
 const run = async () => {
   // We create our own instance of express here.
   // which allows use to use the same server (and port) for both WebSockets and HTTP
-  const app = express()
-  app.use(cors())
+  const app = express();
+  app.use(cors());
   app.use(
     bodyParser.urlencoded({
       extended: true,
     })
-  )
-  app.use(bodyParser.json())
-  const socketServer = new WebSocketServer({ noServer: true })
+  );
+  app.use(bodyParser.json());
+  const socketServer = new WebSocketServer({ noServer: true });
 
   // Set up agent
   const agent = new Agent({
@@ -65,42 +69,47 @@ const run = async () => {
         autoAcceptConnections: true,
       }),
     },
-  })
+  });
+  
+  // Allow to create invitation, no other way to ask for invitation yet
+  app.get("/invitation", async (req, res) => {
+    if (typeof req.query.c_i === "string") {
+      const invitation = ConnectionInvitationMessage.fromUrl(req.url);
+      res.json(invitation.toJSON());
+    } else {
+      const { outOfBandInvitation } = await agent.oob.createInvitation({
+        multiUseInvitation: true,
+      });
+      res.json({
+        invitationUrl: outOfBandInvitation.toUrl({
+          domain: frontpoint + "/invitation",
+        }),
+      });
+    }
+  });
 
   // Create all transports
-  const httpInboundTransport = new HttpInboundTransport({ app, port })
-  const httpOutboundTransport = new HttpOutboundTransport()
-  const wsInboundTransport = new WsInboundTransport({ server: socketServer })
-  const wsOutboundTransport = new WsOutboundTransport()
-
+  const httpInboundTransport = new HttpInboundTransport({ app, port });
+  const httpOutboundTransport = new HttpOutboundTransport();
+  const wsInboundTransport = new WsInboundTransport({ server: socketServer });
+  const wsOutboundTransport = new WsOutboundTransport();
+  
   // Register all Transports
-  agent.registerInboundTransport(httpInboundTransport)
-  agent.registerOutboundTransport(httpOutboundTransport)
-  agent.registerInboundTransport(wsInboundTransport)
-  agent.registerOutboundTransport(wsOutboundTransport)
+  agent.registerInboundTransport(httpInboundTransport);
+  agent.registerOutboundTransport(httpOutboundTransport);
+  agent.registerInboundTransport(wsInboundTransport);
+  agent.registerOutboundTransport(wsOutboundTransport);
 
   //Initialize the agent
-  await agent.initialize()
-
-  // Allow to create invitation, no other way to ask for invitation yet
-  httpInboundTransport.app.get('/invitation', async (req, res) => {
-    if (typeof req.query.c_i === 'string') {
-      const invitation = ConnectionInvitationMessage.fromUrl(req.url)
-      res.json(invitation.toJSON())
-    } else {
-      const { outOfBandInvitation } = await agent.oob.createInvitation({ multiUseInvitation: true })
-      res.json({ "invitationUrl": outOfBandInvitation.toUrl({ domain: frontpoint + '/invitation' }) })
-    }
-  })
+  await agent.initialize();
 
   // When an 'upgrade' to WS is made on our http server, we forward the
   // request to the WS server
-  httpInboundTransport.server?.on('upgrade', (request, socket, head) => {
+  httpInboundTransport.server?.on("upgrade", (request, socket, head) => {
     socketServer.handleUpgrade(request, socket, head, (ws) => {
-      socketServer.emit('connection', ws, request)
-    })
-  })
+      socketServer.emit("connection", ws, request);
+    });
+  });
+};
 
-}
-
-void run()
+void run();
