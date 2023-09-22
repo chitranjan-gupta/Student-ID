@@ -70,7 +70,11 @@ const run = async () => {
       }),
     },
   });
-  
+
+  app.get("/ping", async (req, res) => {
+    res.send("pong");
+  });
+
   // Allow to create invitation, no other way to ask for invitation yet
   app.get("/invitation", async (req, res) => {
     if (typeof req.query.c_i === "string") {
@@ -93,15 +97,12 @@ const run = async () => {
   const httpOutboundTransport = new HttpOutboundTransport();
   const wsInboundTransport = new WsInboundTransport({ server: socketServer });
   const wsOutboundTransport = new WsOutboundTransport();
-  
+
   // Register all Transports
   agent.registerInboundTransport(httpInboundTransport);
   agent.registerOutboundTransport(httpOutboundTransport);
   agent.registerInboundTransport(wsInboundTransport);
   agent.registerOutboundTransport(wsOutboundTransport);
-
-  //Initialize the agent
-  await agent.initialize();
 
   // When an 'upgrade' to WS is made on our http server, we forward the
   // request to the WS server
@@ -110,6 +111,9 @@ const run = async () => {
       socketServer.emit("connection", ws, request);
     });
   });
+
+  //Initialize the agent
+  await agent.initialize();
 };
 
 void run();
