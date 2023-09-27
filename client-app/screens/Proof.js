@@ -1,12 +1,19 @@
-import React, { useState } from "react"
+import React from "react";
 import { StyleSheet, View, Button } from "react-native";
 
-import { useProofs } from "@aries-framework/react-hooks";
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default function Proof() {
-    const proofs = useProofs();
-
-    return <View>
-        
+  return (
+    <View style={styles.container}>
+      <Button title="Proof" />
     </View>
+  );
 }

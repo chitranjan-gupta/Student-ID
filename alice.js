@@ -67,7 +67,6 @@ const initializeAliceAgent = async () => {
 
     agent.registerOutboundTransport(new HttpOutboundTransport())
     agent.registerOutboundTransport(new WsOutboundTransport())
-
     await agent.initialize()
     return agent
 }

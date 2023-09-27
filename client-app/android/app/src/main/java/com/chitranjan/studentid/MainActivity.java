@@ -1,4 +1,5 @@
 package com.chitranjan.studentid;
+
 import java.io.File;
 import android.system.Os;
 import android.system.ErrnoException;
@@ -21,7 +22,7 @@ public class MainActivity extends ReactActivity {
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
-    super.onCreate(null);
+    super.onCreate(savedInstanceState);
 
     try {
       Os.setenv("EXTERNAL_STORAGE", getExternalFilesDir(null).getAbsolutePath(), true);

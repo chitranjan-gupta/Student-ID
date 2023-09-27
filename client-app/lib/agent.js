@@ -12,7 +12,7 @@ import { AnonCredsRsModule } from '@aries-framework/anoncreds-rs'
 import { genesis } from "./bcovrin.js"
 
 export const initializeClient = async () => {
-    const mediatorInvitationUrl = ""
+    const mediatorInvitationUrl = String(process.env.EXPO_PUBLIC_MEDIATOR_URL)
     const config = {
         label: 'client-app',
         walletConfig: {

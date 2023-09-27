@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Button } from "react-native";
-import { useAgent, useConnections } from "@aries-framework/react-hooks";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, View, Button, ToastAndroid } from "react-native";
+
+import { useAries } from "../lib/aries"
 
 const styles = StyleSheet.create({
   container: {
@@ -13,38 +13,34 @@ const styles = StyleSheet.create({
 });
 
 function AcceptInvitation({ url }) {
-  const agent = useAgent();
+  const { agent } = useAries();
   const [invitationUrl, setInvitationUrl] = useState("");
   useEffect(() => {
     if (url) {
       setInvitationUrl(url);
+      console.log(url);
+      console.log(agent.config.label);
+      ToastAndroid.show('url', ToastAndroid.LONG);
     }
   }, []);
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         title="Accept Invitation"
-        onClick={async () => {
-          const inv = await agent?.agent.oob.receiveInvitationFromUrl(
-            invitationUrl
-          );
-          await agent.agent?.connections.returnWhenIsConnected(
-            inv.connectionRecord.id
-          );
+        onPress={async () => {
+          console.log("Starting connection....")
+          const inv = await agent.oob.receiveInvitationFromUrl(invitationUrl);
+          console.log(inv.connectionRecord.id)
+          // await agent.connections.returnWhenIsConnected(
+          //   inv.connectionRecord.id
+          // );
         }}
       />
     </View>
   );
 }
 
-export default function Connection({ route }) {
+export default function Connection({ route, navigation }) {
   const { url } = route.params;
-  const navigation = useNavigation();
-
-  const connections = useConnections();
-  return (
-    <View style={styles.container}>
-      <AcceptInvitation url={url} />
-    </View>
-  );
+  return <AcceptInvitation url={url} />;
 }

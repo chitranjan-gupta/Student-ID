@@ -1,10 +1,15 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Connection from "./screens/Connection";
 import Scanner from "./screens/Scanner";
 import Wallet from "./screens/Wallet";
 import Home from "./screens/Home";
+
 import { AriesProvider } from "./lib/aries";
 
 const Tab = createBottomTabNavigator();
@@ -25,15 +30,18 @@ function WalletTabs() {
 
 const Stack = createStackNavigator();
 
-export default function App(){
+export default function App() {
+  const navigationRef = useNavigationContainerRef();
   return (
-    <AriesProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Wallet" component={WalletTabs} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </AriesProvider>
+    <SafeAreaProvider>
+      <AriesProvider>
+        <NavigationContainer ref={navigationRef}>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Wallet" component={WalletTabs} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AriesProvider>
+    </SafeAreaProvider>
   );
-};
+}

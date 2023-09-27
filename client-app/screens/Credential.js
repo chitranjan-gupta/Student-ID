@@ -1,12 +1,19 @@
-import React, { useState } from "react"
+import React from "react";
 import { StyleSheet, View, Button } from "react-native";
 
-import { useCredentials } from "@aries-framework/react-hooks";
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default function Credentials() {
-    const credentials = useCredentials();
-
-    return <View>
-        
+  return (
+    <View style={styles.container}>
+      <Button title="Credential" />
     </View>
+  );
 }

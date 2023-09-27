@@ -23,6 +23,7 @@
     `sudo apt-get update && sudo apt-get install yarn`
 
 ## Build App Bundle
+Make .env file and add EXPO_PUBLIC_MEDIATOR_URL
 1. `sudo eas login`
 2. `sudo npx expo prebuild` optional
 3. `sudo eas build:configure` optional
@@ -31,9 +32,14 @@
 ## Building the app
 1. Download the bundletool from https://developer.android.com/tools/bundletool
 2. ```java -jar bundletool.jar build-apks --bundle=build.aab --output=test.apks```
+or You can build app the specific to connected device
+2. ```java -jar .\bundletool.jar build-apks --connected-device --bundle=build.aab --output=test.apks```
 
 ## Installing the app
 1. ```java -jar bundletool.jat install-apks --apks=test.apks```
+
+## Debugging the app
+1. ```adb logcat | findstr "com.chitranjan"``` or ```adb logcat *:S ReactNative:V ReactNativeJS:V```
 
 sources:
 1. https://docs.expo.dev/build/setup/
