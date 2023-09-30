@@ -1,4 +1,4 @@
-import { frontpoint } from "./config";
+import { frontpoint } from "./config.js";
 export const createNewInvitation = async (agent) => {
   const outOfBandRecord = await agent.oob.createInvitation();
 
