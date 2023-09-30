@@ -22,6 +22,8 @@ import {
   Agent,
   ConnectionInvitationMessage,
   WsOutboundTransport,
+  ConsoleLogger,
+  LogLevel,
 } from "@aries-framework/core";
 import {
   HttpInboundTransport,
@@ -32,14 +34,20 @@ import indySdk from "indy-sdk";
 import { IndySdkModule } from "@aries-framework/indy-sdk";
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3001;
-const endpoints = [`http://localhost:${port}`, `ws://localhost:${port}`];
-const frontpoint = process.env.URL ? process.env.URL : "http://0.0.0.0:3001";
+const frontpoint = process.env.URL
+  ? `https://${process.env.URL}`
+  : `http://localhost:${port}`;
+const endpoints = [
+  frontpoint,
+  process.env.URL ? `wss://${process.env.URL}` : `ws://localhost:${port}`,
+];
 const agentConfig = {
   label: process.env.AGENT_LABEL || "Client Mediator",
   walletConfig: {
     id: process.env.WALLET_NAME || "clientmediator",
     key: process.env.WALLET_KEY || "clientmediator",
   },
+  logger: new ConsoleLogger(LogLevel.error),
   endpoints,
 };
 
@@ -104,6 +112,9 @@ const run = async () => {
   agent.registerInboundTransport(wsInboundTransport);
   agent.registerOutboundTransport(wsOutboundTransport);
 
+  //Initialize the agent
+  await agent.initialize();
+
   // When an 'upgrade' to WS is made on our http server, we forward the
   // request to the WS server
   httpInboundTransport.server?.on("upgrade", (request, socket, head) => {
@@ -111,9 +122,6 @@ const run = async () => {
       socketServer.emit("connection", ws, request);
     });
   });
-
-  //Initialize the agent
-  await agent.initialize();
 };
 
 void run();
