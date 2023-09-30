@@ -1,9 +1,9 @@
-import { Router } from "express"
+import { Router } from "express";
 
-const router = Router()
+const router = Router();
 
-router.get("/:did", async (req,res) => {
-    res.send(req.params.did);
-})
+router.get("/:did", async (req, res) => {
+  res.send(req.params.did);
+});
 
 export default router;
