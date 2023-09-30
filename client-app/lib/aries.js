@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { initializeClient } from "./agent";
-import { registerConnectionEvent } from "./connection"
+import { registerConnectionEvent } from "./connection";
+import { registerMessageEvent } from "./message";
+
 // Create a new context for Aries
 const AriesContext = createContext({
   agent: undefined,
@@ -28,14 +30,15 @@ const AriesProvider = ({ children }) => {
         setAsDefault: true,
       });
     }
-    registerConnectionEvent(ariesAgent)
+    registerMessageEvent(ariesAgent);
+    registerConnectionEvent(ariesAgent);
     setAgent(ariesAgent);
   }, [setAgent]);
   // Provide the AriesContext value to its children
   return (
-      <AriesContext.Provider value={{ agent, setAgent, initializeAgent }}>
-        {children}
-      </AriesContext.Provider>
+    <AriesContext.Provider value={{ agent, setAgent, initializeAgent }}>
+      {children}
+    </AriesContext.Provider>
   );
 };
 

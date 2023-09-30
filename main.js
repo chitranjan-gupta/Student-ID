@@ -20,7 +20,6 @@ import {
   ProofsModule,
   V2ProofProtocol,
   MediatorPickupStrategy,
-  ConnectionsModule,
   ConsoleLogger,
   LogLevel,
 } from "@aries-framework/core";
@@ -57,7 +56,7 @@ import { send } from "./utils/chat.js";
 import { genesis } from "./bcovrin.js";
 
 const mediatorInvitationUrl =
-  "http://localhost:3001/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJiMjQ2ZjdmZC02OTAzLTQ4NmEtOWU4Zi0yOTAwYzY5YTllMDQiLCJsYWJlbCI6IkNsaWVudCBNZWRpYXRvciIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2ZhSFRVQWl1YUgxUEU4TGFpZzdmUmtyMWFWUmV1SGczdzd6MTVMeUhWWWhDIl0sInJvdXRpbmdLZXlzIjpbXX0seyJpZCI6IiNpbmxpbmUtMSIsInNlcnZpY2VFbmRwb2ludCI6IndzOi8vbG9jYWxob3N0OjMwMDEiLCJ0eXBlIjoiZGlkLWNvbW11bmljYXRpb24iLCJyZWNpcGllbnRLZXlzIjpbImRpZDprZXk6ejZNa2ZhSFRVQWl1YUgxUEU4TGFpZzdmUmtyMWFWUmV1SGczdzd6MTVMeUhWWWhDIl0sInJvdXRpbmdLZXlzIjpbXX1dfQ";
+  "https://mediator.onrender.com/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiI3ZWZmMGU0MS05M2M1LTQyOGQtOGRkYS00ZTFlN2VlYmNhYzYiLCJsYWJlbCI6IkNsaWVudCBNZWRpYXRvciIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwczovL21lZGlhdG9yLm9ucmVuZGVyLmNvbSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rdHRSa0NQTnc5bjlhc3g3cVluZmJkNmd5cWdDOGRaVGNHSjVEZ1F0Q1hBVkoiXSwicm91dGluZ0tleXMiOltdfSx7ImlkIjoiI2lubGluZS0xIiwic2VydmljZUVuZHBvaW50Ijoid3NzOi8vbWVkaWF0b3Iub25yZW5kZXIuY29tIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicmVjaXBpZW50S2V5cyI6WyJkaWQ6a2V5Ono2TWt0dFJrQ1BOdzluOWFzeDdxWW5mYmQ2Z3lxZ0M4ZFpUY0dKNURnUXRDWEFWSiJdLCJyb3V0aW5nS2V5cyI6W119XX0";
 
 const agentConfig = {
   label: "Student",
@@ -66,7 +65,7 @@ const agentConfig = {
     key: process.env.AGENT_WALLET_KEY || "teststudent",
   },
   logger: new ConsoleLogger(LogLevel.debug),
-  //    endpoints: ["http://localhost:5002"],
+  endpoints: ["http://localhost:5002"],
 };
 
 const getAgent = async () => {
@@ -124,7 +123,7 @@ const getAgent = async () => {
     dependencies: agentDependencies,
   });
 
-  //    agent.registerInboundTransport(new HttpInboundTransport({ port: 5002 }))
+  agent.registerInboundTransport(new HttpInboundTransport({ port: 5002 }));
 
   agent.registerOutboundTransport(new HttpOutboundTransport());
   agent.registerOutboundTransport(new WsOutboundTransport());

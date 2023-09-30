@@ -16,7 +16,11 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_MEDIATOR_URL": "https://mediator.onrender.com/invitation?oob=eyJAdHlwZSI6Imh0dHBzOi8vZGlkY29tbS5vcmcvb3V0LW9mLWJhbmQvMS4xL2ludml0YXRpb24iLCJAaWQiOiJkYjJiOGU5Zi1jOGJjLTQxYzMtYTgwYS1jYjQzMmNmOTE3MGEiLCJsYWJlbCI6IkNsaWVudCBNZWRpYXRvciIsImFjY2VwdCI6WyJkaWRjb21tL2FpcDEiLCJkaWRjb21tL2FpcDI7ZW52PXJmYzE5Il0sImhhbmRzaGFrZV9wcm90b2NvbHMiOlsiaHR0cHM6Ly9kaWRjb21tLm9yZy9kaWRleGNoYW5nZS8xLjAiLCJodHRwczovL2RpZGNvbW0ub3JnL2Nvbm5lY3Rpb25zLzEuMCJdLCJzZXJ2aWNlcyI6W3siaWQiOiIjaW5saW5lLTAiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwczovL21lZGlhdG9yLm9ucmVuZGVyLmNvbSIsInR5cGUiOiJkaWQtY29tbXVuaWNhdGlvbiIsInJlY2lwaWVudEtleXMiOlsiZGlkOmtleTp6Nk1rZ3JZb0V2dHQ3UlBISFIxRWRKQ1k1MTZaOXRFQ2dlWUo2WmJoNXFZbTV0NVAiXSwicm91dGluZ0tleXMiOltdfSx7ImlkIjoiI2lubGluZS0xIiwic2VydmljZUVuZHBvaW50Ijoid3NzOi8vbWVkaWF0b3Iub25yZW5kZXIuY29tIiwidHlwZSI6ImRpZC1jb21tdW5pY2F0aW9uIiwicmVjaXBpZW50S2V5cyI6WyJkaWQ6a2V5Ono2TWtncllvRXZ0dDdSUEhIUjFFZEpDWTUxNlo5dEVDZ2VZSjZaYmg1cVltNXQ1UCJdLCJyb3V0aW5nS2V5cyI6W119XX0"
+      }
+    }
   },
   "submit": {
     "production": {}

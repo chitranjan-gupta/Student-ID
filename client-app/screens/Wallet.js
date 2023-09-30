@@ -16,12 +16,12 @@ export default function Wallet({ navigation }) {
   const { initializeAgent } = useAries();
   useEffect(() => {
     async function call() {
-      try{
+      try {
         await initializeAgent();
         console.log("initialized agent");
-        ToastAndroid.show('initialized agent', ToastAndroid.LONG);  
-      }catch(err){
-        console.log(err)
+        ToastAndroid.show("initialized agent", ToastAndroid.LONG);
+      } catch (err) {
+        console.log(err);
       }
     }
     call();

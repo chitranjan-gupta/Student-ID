@@ -30,19 +30,19 @@ function AcceptInvitation({ url }) {
         onPress={async () => {
           try {
             console.log("Starting connection....");
-            const invitation = await agent.oob.parseInvitation(invitationUrl)
+            const invitation = await agent.oob.parseInvitation(invitationUrl);
             if (!invitation) {
-              throw new Error('Could not parse invitation from URL')
+              throw new Error("Could not parse invitation from URL");
             }
-            const record = await agent.oob.receiveInvitation(invitation)
-            console.log(record)
+            const record = await agent.oob.receiveInvitation(invitation);
+            console.log(record);
             //const inv = await agent.oob.receiveInvitationFromUrl(invitationUrl);
             //console.log(inv.connectionRecord.id);
             // await agent.connections.returnWhenIsConnected(
             //   inv.connectionRecord.id
             // );
           } catch (err) {
-            console.log(err)
+            console.log(err);
           }
         }}
       />
