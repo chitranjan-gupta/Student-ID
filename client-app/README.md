@@ -52,7 +52,7 @@ Make .env file and add EXPO_PUBLIC_MEDIATOR_URL
 
 1. `adb logcat | findstr "com.chitranjan"` or `adb logcat *:S ReactNative:V ReactNativeJS:V`
 
-sources:
+Sources:
 
 1. https://docs.expo.dev/build/setup/
 2. https://linuxize.com/post/how-to-install-node-js-on-ubuntu-22-04/
